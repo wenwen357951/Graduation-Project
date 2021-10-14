@@ -1,9 +1,13 @@
 import json
-import cv2
 import os
 import random
+import sys
+
+import cv2
 import numpy as np
 
+# Import doc.config
+sys.path.append("../../../")
 from docs import config
 
 
@@ -16,7 +20,7 @@ def main():
     files = [os.path.join(image_dir, f) for f in os.listdir(image_dir)]
     img_file = random.choice(files)
 
-    with open(os.path.join(config.LOGS_DIR, "acp_.json"), 'r') as json_file:
+    with open(os.path.join(config.LOG_DIRS, "acp_.json"), 'r') as json_file:
         json_data = json.load(json_file)
 
     if json_data is None:

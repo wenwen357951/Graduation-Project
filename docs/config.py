@@ -20,3 +20,6 @@ PROJECTS_DIR = os.path.join(ROOT_DIR, "projects")
 
 # # Liver Tumor Resection
 PROJECTS_LTR_DIR = os.path.join(PROJECTS_DIR, "LiverTumorResection")
+
+# Logs
+LOGS_DIR = os.path.join(ROOT_DIR, "logs")
