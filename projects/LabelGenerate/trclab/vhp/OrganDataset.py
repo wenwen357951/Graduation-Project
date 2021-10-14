@@ -5,12 +5,9 @@ import os
 from glob2 import glob
 from multiprocessing import Pool, Manager
 
-from trclab.utils.ProgressBar import ProgressBar
-from trclab.vhp.OrganImage import OrganImage
-from trclab.vhp.OrganImageReader import OrganImageReader
-
-processing_manager = Manager()
-lock = processing_manager.Lock()
+from ..utils.ProgressBar import ProgressBar
+from ..vhp.OrganImage import OrganImage
+from ..vhp.OrganImageReader import OrganImageReader
 
 
 class MyEncoder(json.JSONEncoder):
@@ -99,7 +96,7 @@ class OrganDataset:
         if self.images_label is None:
             raise FileNotFoundError
 
-        with open(output_file, 'w+') as export_file:
+        with open(output_file, 'w+', encoding='utf-8') as export_file:
             export_file.write("{\n}")
 
         target_name_split = patten.split('.')
@@ -108,7 +105,6 @@ class OrganDataset:
         # progress_bar = ProgressBar(len(self.images), "Export label area")
         # counter = 0
 
-        rst = []
         with Pool(5) as pool:
             process_data = []
             for image in self.images:
@@ -122,56 +118,5 @@ class OrganDataset:
             for data in rst:
                 merged_dict.update(data)
 
-        with open(output_file, 'w') as out_file:
+        with open(output_file, 'w', encoding='utf-8') as out_file:
             json.dump(merged_dict, out_file, default=int, cls=MyEncoder)
-
-        # for image in self.images:
-        #     counter += 1
-        #     progress_bar.update("Process Image (%s/%s)" % (counter, len(self.images)))
-        #     oir = OrganImageReader(image, self.images_label, progress_bar)
-        #     progress_bar.update("Find organ and get list (%s/%s)" % (counter, len(self.images)), just_message=True)
-        #     organ_list = oir.find_organ()
-        #     progress_bar.update("Get index of all founded organs (%s/%s)" % (counter, len(self.images)),
-        #                         just_message=True)
-        #
-        #     target_basename = image.basename[:-len(image.extension)] + target_extension
-        #     target_file_size = os.path.getsize(os.path.join(target_dir, target_basename))
-        #     key = target_basename + str(target_file_size)
-        #
-        #     data[key] = {}
-        #     data[key]['fileref'] = ''
-        #     data[key]['size'] = target_file_size
-        #     data[key]['filename'] = target_basename
-        #     data[key]['base64_img_data'] = ''
-        #     data[key]['file_attributes'] = {}
-        #     data[key]['regions'] = {}
-        #
-        #     region_idx = 0
-        #     progress_bar.update("Start Process %s (%s/%s)" % (key, counter, len(self.images)), just_message=True)
-        #     for organ in organ_list:
-        #         index = oir.get_index(organ)
-        #         filter_image = oir.filter_from_index(index)
-        #         contours = oir.get_contours(filter_image)
-        #         for n in range(0, len(contours)):
-        #             progress_bar.update("Processing... %s-%d (%s/%s)" % (key, n, counter, len(self.images)),
-        #                                 just_message=True)
-        #             list_x = []
-        #             list_y = []
-        #             for point in contours[n]:
-        #                 for x, y in point:
-        #                     list_x.append(x)
-        #                     list_y.append(y)
-        #
-        #             data[key]['regions'][region_idx] = {}
-        #             data[key]['regions'][region_idx]['shape_attributes'] = {}
-        #             data[key]['regions'][region_idx]['shape_attributes']['name'] = 'polygon'
-        #             data[key]['regions'][region_idx]['shape_attributes']['all_points_x'] = list_x
-        #             data[key]['regions'][region_idx]['shape_attributes']['all_points_y'] = list_y
-        #             data[key]['regions'][region_idx]['region_attributes'] = {}
-        #             data[key]['regions'][region_idx]['region_attributes']['name'] = str(oir.get_index(organ))
-        #             region_idx += 1
-        #         progress_bar.update("%s Process successful! (%s/%s)" % (key, counter, len(self.images)),
-        #                             just_message=True)
-
-        # progress_bar.finish("Exported label area successful!")
-        #

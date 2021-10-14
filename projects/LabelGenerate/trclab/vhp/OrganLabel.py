@@ -1,7 +1,7 @@
 import json
 
-from trclab.serialize.ISerializable import ISerializable
-from trclab.utils.ProgressBar import ProgressBar
+from ..serialize.ISerializable import ISerializable
+from ..utils.ProgressBar import ProgressBar
 
 
 class OrganLabel(ISerializable):
@@ -9,8 +9,8 @@ class OrganLabel(ISerializable):
         self.labels = []
         self.rgb_list = []
         if not deserialize:
-            progress = ProgressBar(sum(1 for _ in open(label_file)), 'Load organ label')
-            with open(label_file, 'r') as labels:
+            progress = ProgressBar(sum(1 for _ in open(label_file, encoding='utf-8')), 'Load organ label')
+            with open(label_file, 'r', encoding='utf-8') as labels:
                 for line in labels:
                     line = line.rstrip().replace('\t', ',')
                     progress.update("process line '%s'" % line)
@@ -49,7 +49,7 @@ class OrganLabel(ISerializable):
         return json.dumps(data)
 
     def deserialize(self):
-        data = json.load(open(self.deserialize_file, 'r'))
+        data = json.load(open(self.deserialize_file, 'r', encoding='utf-8'))
         for n in range(0, len(data)):
             index = str(n)
             name = data[index]['organ_name']

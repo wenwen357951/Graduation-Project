@@ -1,11 +1,19 @@
 import os
+import sys
 
-import docs.config as config
+
+# Import docs config
+sys.path.append("../../../")
+from docs import config
+
+# Import trclab module
+sys.path.append("../")
+# noinspection PyUnresolvedReferences
 import trclab.vhp as vhp
 
 if __name__ == '__main__':
     # 讀取標籤
-    vhp_label = vhp.OrganLabel(os.path.join(config.MAIN_RESOURCES_ACP_DIR, "peritoneal_cavity.txt"))
+    vhp_label = vhp.OrganLabel(os.path.join(config.ACP_LABEL_DIR, "peritoneal_cavity.txt"))
     # 讀入資料集
     seg_dataset = vhp.OrganDataset(config.ASSETS_VHP_SEG_DIR, "*.bmp")
     # 設置標籤

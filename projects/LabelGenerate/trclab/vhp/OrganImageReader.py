@@ -2,8 +2,8 @@ import cv2
 import numpy as np
 from PIL import Image
 
-from trclab.vhp.OrganImage import OrganImage
-from trclab.vhp.OrganLabel import OrganLabel
+from ..vhp.OrganImage import OrganImage
+from ..vhp.OrganLabel import OrganLabel
 
 
 class OrganImageReader:
