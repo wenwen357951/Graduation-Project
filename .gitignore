@@ -1,0 +1,10 @@
+# Assets File
+*.png
+*.jpg
+*.bmp
+
+# Weights
+*.h5
+
+# IDEA
+.idea/
