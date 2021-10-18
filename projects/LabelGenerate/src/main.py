@@ -6,9 +6,10 @@ import sys
 sys.path.append("../../../")
 from docs import config
 
-# Import trclab module
-sys.path.append("../")
+# Append modules dir to system path
+sys.path.append(config.MODULES_DIR)
 # noinspection PyUnresolvedReferences
+# Import trclab modules
 import trclab.vhp as vhp
 
 if __name__ == '__main__':
