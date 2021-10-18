@@ -11,15 +11,15 @@ help: ## 這個幫助提示訊息
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 build: ## 建置運行容器
-	docker dockeruild -t $(APP_NAME) ${DOCKER_PATH}
+	docker build -t $(APP_NAME) -f ${DOCKER_PATH} .
 
 build-nc: ## 在不進行快取下建置運行環境
-	docker build --no-cache -t $(APP_NAME) ${DOCKER_PATH}
+	docker build --no-cache -t $(APP_NAME) -f ${DOCKER_PATH} .
 
 run: ## 在 config.env 裡配置的通訊埠運行容器
 	docker run -it --rm --env-file=./config.env -p=$(PORT):$(PORT) --name="$(APP_NAME)" $(APP_NAME) /bin/bash
 
-up: ## 運行容器上線
+up: build ## 運行容器上線
 	docker-compose --file .docker/docker-compose.yml -p "$(APP_NAME)-container" up
 
 down: ## 運行容器下線
