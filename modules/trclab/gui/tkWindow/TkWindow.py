@@ -1,10 +1,10 @@
 import json
 import tkinter as tk
 
-import trclab.gui.tkWindow.components as tkComponent
-from trclab.gui.tkWindow.Attributes import Attributes
-from trclab.gui.tkWindow.ComponentType import ComponentType
-from trclab.serialize.ISerializable import ISerializable
+from ...gui.tkWindow import components as tkComponent
+from ...gui.tkWindow.Attributes import Attributes
+from ...gui.tkWindow.ComponentType import ComponentType
+from ...serialize.ISerializable import ISerializable
 
 
 class TkWindow(ISerializable):
@@ -45,6 +45,7 @@ class TkWindow(ISerializable):
 
         self.displayable = True
 
+    # noinspection PyTypeChecker,PyUnresolvedReferences
     def serialize(self) -> str:
         rst = self.window_info.copy()
         rst['component'] = {}

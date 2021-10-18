@@ -1,7 +1,7 @@
-from trclab.gui.tkWindow.Attributes import Attributes
-from trclab.gui.tkWindow.ComponentType import ComponentType
-from trclab.gui.tkWindow.TkWindow import TkWindow
-from trclab.gui.tkWindow.components.Component import Component
+from ...gui.tkWindow.Attributes import Attributes
+from ...gui.tkWindow.ComponentType import ComponentType
+from ...gui.tkWindow.TkWindow import TkWindow
+from ...gui.tkWindow.components.Component import Component
 
 
 class Builder:

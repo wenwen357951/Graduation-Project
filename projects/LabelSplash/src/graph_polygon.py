@@ -15,6 +15,7 @@ def random_color():
     return random.choice(range(128, 256)), random.choice(range(128, 256)), random.choice(range(128))
 
 
+# noinspection PyUnresolvedReferences
 def main():
     image_dir = config.ASSETS_ALIGNMENT_CT_RESIZE_DIR
     files = [os.path.join(image_dir, f) for f in os.listdir(image_dir)]

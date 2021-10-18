@@ -15,6 +15,9 @@ ASSETS_ALIGNMENT_DIR = os.path.join(ASSETS_DIR, "alignment")
 ASSETS_ALIGNMENT_CT_DIR = os.path.join(ASSETS_ALIGNMENT_DIR, "CT Image (494 x 281)")
 ASSETS_ALIGNMENT_CT_RESIZE_DIR = os.path.join(ASSETS_ALIGNMENT_DIR, "CT Image Resize (1000 x 570)")
 
+# Modules
+MODULES_DIR = os.path.join(ROOT_DIR, "modules")
+
 # Projects
 PROJECTS_DIR = os.path.join(ROOT_DIR, "projects")
 

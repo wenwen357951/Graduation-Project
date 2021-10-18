@@ -1,17 +1,18 @@
 import os
 from datetime import datetime
 from argparser import args
-
-import config
 import settings
 import sys
+
+sys.path.append("../../../")
+from docs import config as docs
 
 #######################
 #   匯入 Mask R-CNN  #
 ####################
 
 # 為系統添加此專案路徑，來找到 mrcnn 函式庫
-sys.path.append(settings.ROOT_DIR)
+sys.path.append(docs.MODULES_DIR)
 # noinspection PyUnresolvedReferences
 from mrcnn import model as model_lib, utils
 
