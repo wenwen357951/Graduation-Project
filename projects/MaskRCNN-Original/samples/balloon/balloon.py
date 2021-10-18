@@ -36,9 +36,10 @@ import skimage.draw
 
 # Root directory of the project
 ROOT_DIR = os.path.abspath("../../../../")
+DOCS_DIR = os.path.join(ROOT_DIR, "docs")
 sys.path.append(ROOT_DIR)
 
-from docs import config as docs
+import docs.config as docs
 
 # Import Mask RCNN
 sys.path.append(docs.MODULES_DIR)  # To find local version of the library

@@ -4,8 +4,11 @@ from argparser import args
 import settings
 import sys
 
-sys.path.append("../../../")
-from docs import config as docs
+# Root directory of the project
+ROOT_DIR = os.path.abspath("../../../")
+sys.path.append(ROOT_DIR)
+
+import docs.config as docs
 
 #######################
 #   匯入 Mask R-CNN  #
