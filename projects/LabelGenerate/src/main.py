@@ -4,6 +4,7 @@ import sys
 
 # Import docs config
 sys.path.append("../../../")
+# noinspection PyUnresolvedReferences
 from docs import config
 
 # Append modules dir to system path
