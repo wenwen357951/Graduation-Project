@@ -1,44 +1,60 @@
 cnf ?= config.env
 include $(cnf)
-export $(shell sed 's/=.*//' $(cnf))
 
-DOCKER_PATH:=".docker/."
+ifeq ($(OS), Windows_NT)
+	detected_OS := Windows
+else
+	detected_OS := $(shell sh -c 'uname -s 2>/dev/null || echo not')
+	export $(shell sed 's/=.*//' $(cnf))
+endif
+
+DOCKER_PATH := $(abspath .docker)
+
+$(info Detected OS: $(detected_OS))
+$(info Docker Path: $(DOCKER_PATH))
 
 .PHONY: help
 .DEFAULT_GOAL := help
 
-help: ## 這個幫助提示訊息
+help: ## This help message
+ifeq ($(detected_OS), Windows)
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "%-30s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+else
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+endif
 
-build: ## 建置運行容器
+build: ## Build the container
 	docker build -t $(APP_NAME) -f ${DOCKER_PATH} .
 
-build-nc: ## 在不進行快取下建置運行環境
+build-nc: ## Build the container without cache
 	docker build --no-cache -t $(APP_NAME) -f ${DOCKER_PATH} .
 
-run: ## 在 config.env 裡配置的通訊埠運行容器
+run: ## Run the container on the port configured in config.env
 	docker run -it --rm --env-file=./config.env -p=$(PORT):$(PORT) --name="$(APP_NAME)" $(APP_NAME) /bin/bash
 
-up: build ## 運行容器上線
+up: build ## Bring the container online
 	docker-compose --file .docker/docker-compose.yml -p "$(APP_NAME)-container" up
 
-down: ## 運行容器下線
+down: ## Bring the container offline
 	docker-compose --file .docker/docker-compose.yml down --rmi all
 
-stop: ## 停止並移除正在運行的容器
+ssh: ## Into the container
+	docker exec -it $(APP_NAME) /bin/bash
+
+stop: ## Stop and remove the running container
 	docker stop $(APP_NAME)
 	docker rm $(APP_NAME)
 
 # Docker tagging
-tag: tag-latest tag-version ## 幫運行容器產生標記 {version} 與 latest 標籤
+tag: tag-latest tag-version ## Generate tags {version} and latest tags for containers
 
-tag-latest: ## 幫運行容器產生標記 latest 標籤
+tag-latest: ## Generate tags latest for containers
 	@echo '創建標籤 latest'
 	docker tag $(APP_NAME) $(DOCKER_REPO)/$(APP_NAME):latest
 
-tag-version: ## 幫運行容器產生標記 {version} 標籤
+tag-version: ## Generate tags {version} for containers
 	@echo '創建標籤 $(APP_VERSION)'
 	docker tag $(APP_NAME) $(DOCKER_REPO)/$(APP_NAME):$(APP_VERSION)
 
-version: ## 輸出當前版本
+version: ## current version
 	@echo $(APP_VERSION)
