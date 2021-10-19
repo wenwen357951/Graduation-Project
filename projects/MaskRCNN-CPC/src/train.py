@@ -8,7 +8,7 @@ import sys
 ROOT_DIR = os.path.abspath("../../../")
 sys.path.append(ROOT_DIR)
 
-import docs.config as docs
+import mydocs.config as docs
 
 #######################
 #   匯入 Mask R-CNN  #

@@ -8,7 +8,7 @@ import numpy as np
 
 # Import doc.config
 sys.path.append("../../../")
-from docs import config
+from mydocs import config
 
 
 def random_color():

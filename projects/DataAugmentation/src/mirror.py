@@ -6,7 +6,7 @@ from PIL import Image, ImageOps
 ROOT_DIR = os.path.abspath("../../../")
 sys.path.append(ROOT_DIR)
 
-from docs import config
+from mydocs import config
 
 image_dir = config.ASSETS_ALIGNMENT_CT_RESIZE_DIR
 files = glob.glob(os.path.join(image_dir, "*.jpg"), recursive=True)

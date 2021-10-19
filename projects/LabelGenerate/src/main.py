@@ -2,9 +2,10 @@ import os
 import sys
 
 
-# Import docs config
-sys.path.append("../../../")
-from docs import config
+# Import mydocs config
+ROOT_DIR = os.path.abspath("../../../")
+sys.path.append(ROOT_DIR)
+from mydocs import config
 
 # Append modules dir to system path
 sys.path.append(config.MODULES_DIR)

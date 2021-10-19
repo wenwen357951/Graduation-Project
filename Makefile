@@ -23,7 +23,7 @@ up: build ## 運行容器上線
 	docker-compose --file .docker/docker-compose.yml -p "$(APP_NAME)-container" up
 
 down: ## 運行容器下線
-	docker-compose --file .docker/docker-compose.yml down --rmi all
+	docker-compose --file .docker/docker-compose.yml -p "$(APP_NAME)-container" down --rmi all
 
 stop: ## 停止並移除正在運行的容器
 	docker stop $(APP_NAME)
