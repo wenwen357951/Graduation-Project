@@ -1421,7 +1421,7 @@ def build_detection_targets(rpn_rois, gt_class_ids, gt_boxes, gt_masks, config):
         class_mask = gt_masks[:, :, gt_id]
 
         if config.USE_MINI_MASK:
-            # Create a mask placeholder, the size of the image
+            # Create a mask placeholder.txt, the size of the image
             placeholder = np.zeros(config.IMAGE_SHAPE[:2], dtype=bool)
             # GT box
             gt_y1, gt_x1, gt_y2, gt_x2 = gt_boxes[gt_id]
@@ -1430,7 +1430,7 @@ def build_detection_targets(rpn_rois, gt_class_ids, gt_boxes, gt_masks, config):
             # Resize mini mask to size of GT box
             placeholder[gt_y1:gt_y2, gt_x1:gt_x2] = \
                 np.round(utils.resize(class_mask, (gt_h, gt_w))).astype(bool)
-            # Place the mini batch in the placeholder
+            # Place the mini batch in the placeholder.txt
             class_mask = placeholder
 
         # Pick part of the mask and resize it
@@ -1564,7 +1564,7 @@ def generate_random_rois(image_shape, count, gt_class_ids, gt_boxes):
 
     Returns: [count, (y1, x1, y2, x2)] ROI boxes in pixels.
     """
-    # placeholder
+    # placeholder.txt
     rois = np.zeros((count, 4), dtype=np.int32)
 
     # Generate random ROIs around GT boxes (90% of count)
