@@ -1,11 +1,17 @@
 cnf ?= config.env
 include $(cnf)
 
+ENV_YAML := CPC-MaskRCNN-Normal.yml
+
 ifeq ($(OS), Windows_NT)
 	detected_OS := Windows
 else
 	detected_OS := $(shell sh -c 'uname -s 2>/dev/null || echo not')
 	export $(shell sed 's/=.*//' $(cnf))
+
+	ifeq ($(detected_OS), "Darwin")
+		ENV_YAML := CPC-MaskRCNN-OSX.yml
+	endif
 endif
 
 DOCKER_PATH := .docker/Dockerfile
@@ -24,10 +30,10 @@ else
 endif
 
 build: ## Build the container
-	docker build -t $(APP_NAME) -f ${DOCKER_PATH} .
+	docker build -t $(APP_NAME) --build-arg ENV_YAML=$(ENV_YAML) -f ${DOCKER_PATH} .
 
 build-nc: ## Build the container without cache
-	docker build --no-cache -t $(APP_NAME) -f ${DOCKER_PATH} .
+	docker build --no-cache -t $(APP_NAME) --build-arg ENV_YAML=$(ENV_YAML) -f ${DOCKER_PATH} .
 
 run: ## Run the container on the port configured in config.env
 	docker run -it --rm --env-file=./config.env -p=$(PORT):$(PORT) --name="$(APP_NAME)" $(APP_NAME) /bin/bash
