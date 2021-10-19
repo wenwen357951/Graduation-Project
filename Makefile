@@ -8,7 +8,7 @@ else
 	export $(shell sed 's/=.*//' $(cnf))
 endif
 
-DOCKER_PATH := $(abspath .docker)
+DOCKER_PATH := .docker/.
 
 $(info Detected OS: $(detected_OS))
 $(info Docker Path: $(DOCKER_PATH))
