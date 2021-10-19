@@ -1,9 +1,9 @@
 import json
 
-from trclab.gui.tkWindow.ComponentType import ComponentType
-from trclab.gui.tkWindow.components.Properties import Properties
-from trclab.gui.tkWindow.layout.GridLayout import GridLayout
-from trclab.serialize.ISerializable import ISerializable
+from ....gui.tkWindow.ComponentType import ComponentType
+from ....gui.tkWindow.components.Properties import Properties
+from ....gui.tkWindow.layout.GridLayout import GridLayout
+from ....serialize.ISerializable import ISerializable
 
 
 class Component(ISerializable):
