@@ -1,7 +1,7 @@
 import tkinter as tk
 
-from trclab.gui.tkWindow import ComponentType
-from trclab.gui.tkWindow.components.Component import Component
+from ....gui.tkWindow import ComponentType
+from ....gui.tkWindow.components.Component import Component
 
 
 class Label(Component):
