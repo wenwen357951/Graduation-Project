@@ -36,7 +36,7 @@ up: build ## Bring the container online
 	docker-compose --file ".docker/docker-compose.yml" -p "$(APP_NAME)-container" up
 
 down: ## Bring the container offline
-	docker-compose --file ".docker/docker-compose.yml" -p "$(APP_NAME)-container" down
+	docker-compose --file ".docker/docker-compose.yml" -p "$(APP_NAME)-container" down --rmi local
 
 ssh: ## Into the container
 	docker exec -it $(APP_NAME) /bin/bash
