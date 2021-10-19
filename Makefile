@@ -33,10 +33,10 @@ run: ## Run the container on the port configured in config.env
 	docker run -it --rm --env-file=./config.env -p=$(PORT):$(PORT) --name="$(APP_NAME)" $(APP_NAME) /bin/bash
 
 up: build ## Bring the container online
-	docker-compose --file '.docker/docker-compose.yml' -p "$(APP_NAME)-container" up
+	docker-compose --file ".docker/docker-compose.yml" -p "$(APP_NAME)-container" up
 
 down: ## Bring the container offline
-	docker-compose --file '.docker/docker-compose.yml' -p "$(APP_NAME)-container" down
+	docker-compose --file ".docker/docker-compose.yml" -p "$(APP_NAME)-container" down
 
 ssh: ## Into the container
 	docker exec -it $(APP_NAME) /bin/bash
