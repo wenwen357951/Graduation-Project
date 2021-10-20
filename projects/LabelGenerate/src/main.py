@@ -22,4 +22,4 @@ if __name__ == '__main__':
     seg_dataset.set_label(vhp_label)
     # 匯出標記區域根據目標圖片(映射圖片)至輸出位置
     seg_dataset.export_label_area(config.ASSETS_ALIGNMENT_CT_RESIZE_DIR, "*.jpg",
-                                  os.path.join(config.LOGS_DIR, 'acp.json'))
+                                  os.path.join(config.LOGS_DIR, 'acp_turn_5_degree.json'))

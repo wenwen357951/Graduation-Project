@@ -10,7 +10,7 @@ else
 	export $(shell sed 's/=.*//' $(cnf))
 
 	ifeq ($(detected_OS), Darwin)
-		ENV_YAML := CPC-MaskRCNN-OSX.yml
+		ENV_YAML := environment.yml
 	endif
 endif
 
