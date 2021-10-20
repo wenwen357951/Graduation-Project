@@ -9,7 +9,7 @@ else
 	detected_OS := $(shell sh -c 'uname -s 2>/dev/null || echo not')
 	export $(shell sed 's/=.*//' $(cnf))
 
-	ifeq ($(detected_OS), "Darwin")
+	ifeq ($(detected_OS), Darwin)
 		ENV_YAML := CPC-MaskRCNN-OSX.yml
 	endif
 endif
