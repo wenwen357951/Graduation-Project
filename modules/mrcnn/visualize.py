@@ -7,21 +7,21 @@ Licensed under the MIT License (see LICENSE for details)
 Written by Waleed Abdulla
 """
 
-import os
-import sys
-import random
-import itertools
 import colorsys
+import itertools
+import os
+import random
+import sys
 
-import numpy as np
-from skimage.measure import find_contours
-import matplotlib.pyplot as plt
-from matplotlib import patches,  lines
-from matplotlib.patches import Polygon
 import IPython.display
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib import patches, lines
+from matplotlib.patches import Polygon
+from skimage.measure import find_contours
 
 # Root directory of the project
-ROOT_DIR = os.path.abspath("../../projects/MaskRCNN-Original/")
+ROOT_DIR = os.path.abspath("../")
 
 # Import Mask RCNN
 sys.path.append(ROOT_DIR)  # To find local version of the library

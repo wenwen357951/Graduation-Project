@@ -14,28 +14,28 @@ import trclab.vhp as vhp
 
 if __name__ == '__main__':
     CT_DIRS = [
-        config.ASSETS_ALIGNMENT_CT_RESIZE_DIR,
-        config.ASSETS_DA_M_CT_DIR,
-        config.ASSETS_DA_CT_L_5o_DIR,
-        config.ASSETS_DA_CT_L_10o_DIR,
-        config.ASSETS_DA_CT_R_5o_DIR,
-        config.ASSETS_DA_CT_R_10o_DIR,
-        config.ASSETS_DA_M_CT_L_5o_DIR,
-        config.ASSETS_DA_M_CT_L_10o_DIR,
-        config.ASSETS_DA_M_CT_R_5o_DIR,
-        config.ASSETS_DA_M_CT_R_10o_DIR
+        config.DATASET_ALIGNMENT_CT_RESIZE,
+        config.DATASET_DA_M_CT_RS,
+        config.DATASET_DA_CT_L_5o,
+        config.DATASET_DA_CT_L_10o,
+        config.DATASET_DA_CT_R_5o,
+        config.DATASET_DA_CT_R_10o,
+        config.DATASET_DA_M_CT_L_5o,
+        config.DATASET_DA_M_CT_L_10o,
+        config.DATASET_DA_M_CT_R_5o,
+        config.DATASET_DA_M_CT_R_10o
     ]
     SEG_DIRS = [
-        config.ASSETS_VHP_SEG_DIR,
-        config.ASSETS_DA_M_SEG_DIR,
-        config.ASSETS_DA_SEG_L_5o_DIR,
-        config.ASSETS_DA_SEG_L_10o_DIR,
-        config.ASSETS_DA_SEG_R_5o_DIR,
-        config.ASSETS_DA_SEG_R_10o_DIR,
-        config.ASSETS_DA_M_SEG_L_5o_DIR,
-        config.ASSETS_DA_M_SEG_L_10o_DIR,
-        config.ASSETS_DA_M_SEG_R_5o_DIR,
-        config.ASSETS_DA_M_SEG_R_10o_DIR
+        config.DATASET_VHP_SEG,
+        config.DATASET_DA_M_SEG,
+        config.DATASET_DA_SEG_L_5o,
+        config.DATASET_DA_SEG_L_10o,
+        config.DATASET_DA_SEG_R_5o,
+        config.DATASET_DA_SEG_R_10o,
+        config.DATASET_DA_M_SEG_L_5o,
+        config.DATASET_DA_M_SEG_L_10o,
+        config.DATASET_DA_M_SEG_R_5o,
+        config.DATASET_DA_M_SEG_R_10o
     ]
     OUTPUT_NAME = [
         "normal.json",
@@ -47,11 +47,11 @@ if __name__ == '__main__':
         "mirror_l5.json",
         "mirror_l10.json",
         "mirror_r5.json",
-        "mirror_r10.json",
+        "mirror_r10.json"
     ]
 
     for (ct, seg, out) in zip(CT_DIRS, SEG_DIRS, OUTPUT_NAME):
-        print(ct, seg, out)
+        print("--------------STARTING PROCESS NEW--------------")
         # 讀取標籤
         vhp_label = vhp.OrganLabel(os.path.join(config.ACP_LABEL_DIR, "peritoneal_cavity.txt"))
         # 讀入資料集

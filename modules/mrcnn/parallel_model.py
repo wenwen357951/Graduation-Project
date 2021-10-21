@@ -14,9 +14,9 @@ https://github.com/fchollet/keras/blob/master/keras/utils/training_utils.py
 """
 
 import tensorflow as tf
-import keras.backend as K
-import keras.layers as KL
-import keras.models as KM
+import tensorflow.keras.backend as K
+import tensorflow.keras.layers as KL
+import tensorflow.keras.models as KM
 
 
 class ParallelModel(KM.Model):
@@ -113,17 +113,17 @@ if __name__ == "__main__":
 
     import os
     import numpy as np
-    import keras.optimizers
-    from keras.datasets import mnist
-    from keras.preprocessing.image import ImageDataGenerator
+    from tensorflow.keras.datasets import mnist
+    from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
     GPU_COUNT = 2
 
     # Root directory of the project
-    ROOT_DIR = os.path.abspath("../../projects/MaskRCNN-Original/")
+    ROOT_DIR = os.path.abspath("../")
 
     # Directory to save logs and trained model
     MODEL_DIR = os.path.join(ROOT_DIR, "logs")
+
 
     def build_model(x_train, num_classes):
         # Reset default graph. Keras leaves old ops in the graph,

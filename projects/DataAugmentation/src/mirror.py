@@ -13,7 +13,7 @@ files = glob(os.path.join(image_dir, "*.bmp"), recursive=True)
 
 
 def main():
-    output_dir = os.path.join(config.LOGS_DIR, "MirrorSegmentedImages (1000 X 570)")
+    output_dir = os.path.join(config.LOGS_DIR, "SEG Mirror (1000 X 570)")
     if not os.path.exists(output_dir):
         print("Output Dir isn't exists")
         os.mkdir(config.LOGS_DIR)
@@ -23,7 +23,7 @@ def main():
         print(os.path.basename(file))
         im = Image.open(file)
         im_flip = ImageOps.mirror(im)
-        im_flip.save(os.path.join(config.LOGS_DIR, "MirrorSegmentedImages (1000 X 570)/{}".format(os.path.basename(file))),
+        im_flip.save(os.path.join(config.LOGS_DIR, "SEG Mirror (1000 X 570)/{}".format(os.path.basename(file))),
                      quality=100)
 
 
