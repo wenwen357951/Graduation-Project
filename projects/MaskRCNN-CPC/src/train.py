@@ -5,17 +5,17 @@ import settings
 import sys
 
 # Root directory of the project
-ROOT_DIR = os.path.abspath("../../../")
-sys.path.append(ROOT_DIR)
+DOCS_DIR = os.path.abspath("../../../docs")
+sys.path.append(DOCS_DIR)
 
-import docs.config as docs
+import config
 
 #######################
 #   匯入 Mask R-CNN  #
 ####################
 
 # 為系統添加此專案路徑，來找到 mrcnn 函式庫
-sys.path.append(docs.MODULES_DIR)
+sys.path.append(config.MODULES_DIR)
 # noinspection PyUnresolvedReferences
 from mrcnn import model as model_lib, utils
 

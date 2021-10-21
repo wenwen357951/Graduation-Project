@@ -7,21 +7,19 @@ Licensed under the MIT License (see LICENSE for details)
 Written by Waleed Abdulla
 """
 
-import sys
-import os
 import logging
-import math
 import random
+import shutil
+import urllib.request
+import warnings
+from distutils.version import LooseVersion
+
 import numpy as np
-import tensorflow as tf
 import scipy
 import skimage.color
 import skimage.io
 import skimage.transform
-import urllib.request
-import shutil
-import warnings
-from distutils.version import LooseVersion
+import tensorflow as tf
 
 # URL from which to download the latest COCO trained weights
 COCO_MODEL_URL = "https://github.com/matterport/Mask_RCNN/releases/download/v2.0/mask_rcnn_coco.h5"
@@ -199,8 +197,8 @@ def box_refinement_graph(box, gt_box):
 
     dy = (gt_center_y - center_y) / height
     dx = (gt_center_x - center_x) / width
-    dh = tf.log(gt_height / height)
-    dw = tf.log(gt_width / width)
+    dh = tf.math.log(gt_height / height)
+    dw = tf.math.log(gt_width / width)
 
     result = tf.stack([dy, dx, dh, dw], axis=1)
     return result
@@ -518,7 +516,7 @@ def minimize_mask(bbox, mask, mini_shape):
     """Resize masks to a smaller version to reduce memory load.
     Mini-masks can be resized back to image scale using expand_masks()
 
-    See inspect_data.py notebook for more details.
+    See inspect_data.ipynb notebook for more details.
     """
     mini_mask = np.zeros(mini_shape + (mask.shape[-1],), dtype=bool)
     for i in range(mask.shape[-1]):
@@ -538,7 +536,7 @@ def expand_mask(bbox, mini_mask, image_shape):
     """Resizes mini masks back to image size. Reverses the change
     of minimize_mask().
 
-    See inspect_data.py notebook for more details.
+    See inspect_data.ipynb notebook for more details.
     """
     mask = np.zeros(image_shape[:2] + (mini_mask.shape[-1],), dtype=bool)
     for i in range(mask.shape[-1]):
