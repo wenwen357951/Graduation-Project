@@ -1,20 +1,14 @@
 cnf ?= config.env
 include $(cnf)
 
-ENV_YAML := CPC-MaskRCNN-Normal.yml
-
 ifeq ($(OS), Windows_NT)
 	detected_OS := Windows
 else
 	detected_OS := $(shell sh -c 'uname -s 2>/dev/null || echo not')
 	export $(shell sed 's/=.*//' $(cnf))
-
-	ifeq ($(detected_OS), Darwin)
-		ENV_YAML := environment.yml
-	endif
 endif
 
-DOCKER_PATH := .docker/Dockerfile
+DOCKER_PATH := .docker/.
 
 $(info Detected OS: $(detected_OS))
 $(info Docker Path: $(DOCKER_PATH))
@@ -30,19 +24,19 @@ else
 endif
 
 build: ## Build the container
-	docker build -t $(APP_NAME) --build-arg ENV_YAML=$(ENV_YAML) -f ${DOCKER_PATH} .
+	docker build -t $(APP_NAME) -f ${DOCKER_PATH} .
 
 build-nc: ## Build the container without cache
-	docker build --no-cache -t $(APP_NAME) --build-arg ENV_YAML=$(ENV_YAML) -f ${DOCKER_PATH} .
+	docker build --no-cache -t $(APP_NAME) -f ${DOCKER_PATH} .
 
 run: ## Run the container on the port configured in config.env
 	docker run -it --rm --env-file=./config.env -p=$(PORT):$(PORT) --name="$(APP_NAME)" $(APP_NAME) /bin/bash
 
 up: build ## Bring the container online
-	docker-compose --file ".docker/docker-compose.yml" -p "$(APP_NAME)-container" up
+	docker-compose --file .docker/docker-compose.yml -p "$(APP_NAME)-container" up
 
 down: ## Bring the container offline
-	docker-compose --file ".docker/docker-compose.yml" -p "$(APP_NAME)-container" down --rmi local
+	docker-compose --file .docker/docker-compose.yml down --rmi all
 
 ssh: ## Into the container
 	docker exec -it $(APP_NAME) /bin/bash
