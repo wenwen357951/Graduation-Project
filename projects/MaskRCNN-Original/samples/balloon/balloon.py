@@ -38,8 +38,9 @@ import skimage.draw
 ROOT_DIR = os.path.abspath("../../../../")
 DOCS_DIR = os.path.join(ROOT_DIR, "docs")
 sys.path.append(ROOT_DIR)
+sys.path.append(DOCS_DIR)
 
-import docs.config as docs
+import config as docs
 
 # Import Mask RCNN
 sys.path.append(docs.MODULES_DIR)  # To find local version of the library

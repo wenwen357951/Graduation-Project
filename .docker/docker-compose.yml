@@ -3,7 +3,7 @@ version: "3.3"
 services:
   conda:
     build: .
-    image: maskrcnn
+    image: nvidia/cuda
     container_name: maskrcnn
     stdin_open: true
     tty: true
