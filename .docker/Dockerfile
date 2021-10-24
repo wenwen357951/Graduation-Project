@@ -1,5 +1,4 @@
-#FROM continuumio/miniconda3:latest
-FROM pytorch/conda-cuda
+FROM continuumio/miniconda3:latest
 MAINTAINER 4A7G0029@stust.edu.tw
 ARG ENV_YAML
 
@@ -19,9 +18,9 @@ RUN apt upgrade -y
 RUN apt install libgl1-mesa-glx -y
 
 # Update Anaconda
-#RUN conda update conda -y
-## Install Env
-#RUN conda env update --name base --file ${ENV_YAML} --prune
+RUN conda update conda -y
+# Install Env
+RUN conda env update --name base --file ${ENV_YAML} --prune
 
 ############
 

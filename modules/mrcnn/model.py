@@ -30,7 +30,6 @@ assert LooseVersion(tf.__version__) >= LooseVersion("2.0")
 
 tf.compat.v1.disable_eager_execution()
 
-
 ############################################################
 #  Utility Functions
 ############################################################
@@ -332,7 +331,6 @@ class ProposalLayer(KL.Layer):
             padding = tf.maximum(self.proposal_count - tf.shape(input=proposals)[0], 0)
             proposals = tf.pad(tensor=proposals, paddings=[(0, padding), (0, 0)])
             return proposals
-
         proposals = utils.batch_slice([boxes, scores], nms,
                                       self.config.IMAGES_PER_GPU)
 
@@ -1272,7 +1270,7 @@ def load_image_gt(dataset, config, image_id, augmentation=None):
         assert image.shape == image_shape, "Augmentation shouldn't change image size"
         assert mask.shape == mask_shape, "Augmentation shouldn't change mask size"
         # Change mask back to bool
-        mask = mask.astype(np.bool)
+        mask = mask.astype(np.bool_)
 
     # Note that some boxes might be all zeros if the corresponding mask got cropped out.
     # and here is to filter them out
@@ -1929,7 +1927,6 @@ class MaskRCNN(object):
             # Duplicate across the batch dimension because Keras requires it
             # TODO: can this be optimized to avoid duplicating the anchors?
             anchors = np.broadcast_to(anchors, (config.BATCH_SIZE,) + anchors.shape)
-
             # A hack to get around Keras's bad support for constants
             # This class returns a constant layer
             class ConstLayer(tf.keras.layers.Layer):
@@ -2157,7 +2154,7 @@ class MaskRCNN(object):
         """
         # Optimizer object
         optimizer = keras.optimizers.SGD(
-            lr=learning_rate, momentum=momentum,
+            learning_rate=learning_rate, momentum=momentum,
             clipnorm=self.config.GRADIENT_CLIP_NORM)
         # Add Losses
         loss_names = [

@@ -17,6 +17,7 @@ import tensorflow as tf
 import tensorflow.keras.backend as K
 import tensorflow.keras.layers as KL
 import tensorflow.keras.models as KM
+from tensorflow import keras
 
 
 class ParallelModel(KM.Model):
@@ -123,7 +124,6 @@ if __name__ == "__main__":
 
     # Directory to save logs and trained model
     MODEL_DIR = os.path.join(ROOT_DIR, "logs")
-
 
     def build_model(x_train, num_classes):
         # Reset default graph. Keras leaves old ops in the graph,
