@@ -8,7 +8,7 @@ import sys
 DOCS_DIR = os.path.abspath("../../../docs")
 sys.path.append(DOCS_DIR)
 
-import config
+from docs import config
 
 #######################
 #   匯入 Mask R-CNN  #

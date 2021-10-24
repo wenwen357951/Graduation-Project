@@ -17,7 +17,7 @@ def random_color():
 
 # noinspection PyUnresolvedReferences
 def main():
-    image_dir = config.ASSETS_DA_CT_RIGHT_5o_DIR
+    image_dir = config.DATASET_DA_CT_R_5o
     files = [os.path.join(image_dir, f) for f in os.listdir(image_dir)]
     img_file = random.choice(files)
 
