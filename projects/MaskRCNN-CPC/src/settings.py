@@ -2,7 +2,7 @@ import os
 import sys
 
 sys.path.append("../../../docs")
-import config
+from docs import config
 
 ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
 DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs")
