@@ -13,11 +13,10 @@ https://github.com/avolkov1/keras_experiments/blob/master/keras_exp/multigpu/
 https://github.com/fchollet/keras/blob/master/keras/utils/training_utils.py
 """
 
+import keras.backend as K
+import keras.layers as KL
+import keras.models as KM
 import tensorflow as tf
-import tensorflow.keras.backend as K
-import tensorflow.keras.layers as KL
-import tensorflow.keras.models as KM
-from tensorflow import keras
 
 
 class ParallelModel(KM.Model):
@@ -114,16 +113,18 @@ if __name__ == "__main__":
 
     import os
     import numpy as np
-    from tensorflow.keras.datasets import mnist
-    from tensorflow.keras.preprocessing.image import ImageDataGenerator
+    import keras.optimizers
+    from keras.datasets import mnist
+    from keras.preprocessing.image import ImageDataGenerator
 
     GPU_COUNT = 2
 
     # Root directory of the project
-    ROOT_DIR = os.path.abspath("../")
+    ROOT_DIR = os.path.abspath("../../projects/MaskRCNN-Original/")
 
     # Directory to save logs and trained model
     MODEL_DIR = os.path.join(ROOT_DIR, "logs")
+
 
     def build_model(x_train, num_classes):
         # Reset default graph. Keras leaves old ops in the graph,
@@ -142,6 +143,7 @@ if __name__ == "__main__":
         x = KL.Dense(num_classes, activation='softmax', name="dense2")(x)
 
         return KM.Model(inputs, x, "digit_classifier_model")
+
 
     # Load MNIST Data
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
