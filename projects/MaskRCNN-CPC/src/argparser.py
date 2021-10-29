@@ -16,14 +16,14 @@ parser.add_argument(
 parser.add_argument(
     '--dataset',
     required=False,
-    metavar="/path/to/your/dataset/",
+    metavar="/docs/to/your/dataset/",
     help="資料集的資料集路徑"
 )
 
 parser.add_argument(
     '--weights',
     required=True,
-    metavar="/path/to/weights.h5/",
+    metavar="/docs/to/weights.h5/",
     help="權重檔案(.h5)的路徑或 'coco'"
 )
 

@@ -1,6 +1,6 @@
 import os
 
-ROOT_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+ROOT_DIR = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir))
 
 # Assets Dir
 ASSETS_DIR = os.path.join(ROOT_DIR, "assets")
@@ -77,7 +77,19 @@ LOGS_DIR = os.path.join(ROOT_DIR, "logs")
 
 # Resources
 RESOURCES_DIR = os.path.join(ROOT_DIR, "resources")
-# # AbdominalCavityProject
-RESOURCES_ACP_DIR = os.path.join(RESOURCES_DIR, "AbdominalCavityProject")
+LABEL_MRCNN_DIR = os.path.join(RESOURCES_DIR, "VHP_MRCNN_LABEL")
+LABEL_MRCNN_M = os.path.join(LABEL_MRCNN_DIR, "mirror.json")
+LABEL_MRCNN_M_L5 = os.path.join(LABEL_MRCNN_DIR, "mirror_l5.json")
+LABEL_MRCNN_M_L10 = os.path.join(LABEL_MRCNN_DIR, "mirror_l10.json")
+LABEL_MRCNN_M_R5 = os.path.join(LABEL_MRCNN_DIR, "mirror_r5.json")
+LABEL_MRCNN_M_R10 = os.path.join(LABEL_MRCNN_DIR, "mirror_r10.json")
+LABEL_MRCNN = os.path.join(LABEL_MRCNN_DIR, "normal.json")
+LABEL_MRCNN_L5 = os.path.join(LABEL_MRCNN_DIR, "normal_l5.json")
+LABEL_MRCNN_L10 = os.path.join(LABEL_MRCNN_DIR, "normal_l10.json")
+LABEL_MRCNN_R5 = os.path.join(LABEL_MRCNN_DIR, "normal_r5.json")
+LABEL_MRCNN_R10 = os.path.join(LABEL_MRCNN_DIR, "normal_r10.json")
+
+# # TrainingDataset
+RESOURCES_ACP_DIR = os.path.join(RESOURCES_DIR, "TrainingDataset")
 ACP_DATASET = os.path.join(RESOURCES_ACP_DIR, "dataset")
 ACP_LABEL_DIR = os.path.join(RESOURCES_ACP_DIR, "label")

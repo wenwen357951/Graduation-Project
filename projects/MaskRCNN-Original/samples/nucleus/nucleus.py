@@ -13,16 +13,16 @@ Usage: import the module (see Jupyter notebooks for examples), or run from
        the command line as such:
 
     # Train a new model starting from ImageNet weights
-    python3 nucleus.py train --dataset=/path/to/dataset --subset=train --weights=imagenet
+    python3 nucleus.py train --dataset=/docs/to/dataset --subset=train --weights=imagenet
 
     # Train a new model starting from specific weights file
-    python3 nucleus.py train --dataset=/path/to/dataset --subset=train --weights=/path/to/weights.h5
+    python3 nucleus.py train --dataset=/docs/to/dataset --subset=train --weights=/docs/to/weights.h5
 
     # Resume training a model that you had trained earlier
-    python3 nucleus.py train --dataset=/path/to/dataset --subset=train --weights=last
+    python3 nucleus.py train --dataset=/docs/to/dataset --subset=train --weights=last
 
     # Generate submission file
-    python3 nucleus.py detect --dataset=/path/to/dataset --subset=train --weights=<last or /path/to/weights.h5>
+    python3 nucleus.py detect --dataset=/docs/to/dataset --subset=train --weights=<last or /docs/to/weights.h5>
 """
 
 # Set matplotlib backend
@@ -225,8 +225,8 @@ class NucleusDataset(utils.Dataset):
         class_ids: a 1D array of class IDs of the instance masks.
         """
         info = self.image_info[image_id]
-        # Get mask directory from image path
-        mask_dir = os.path.join(os.path.dirname(os.path.dirname(info['path'])), "masks")
+        # Get mask directory from image docs
+        mask_dir = os.path.join(os.path.dirname(os.path.dirname(info['docs'])), "masks")
 
         # Read mask files from .png image
         mask = []
@@ -240,7 +240,7 @@ class NucleusDataset(utils.Dataset):
         return mask, np.ones([mask.shape[-1]], dtype=np.int32)
 
     def image_reference(self, image_id):
-        """Return the path of the image."""
+        """Return the docs of the image."""
         info = self.image_info[image_id]
         if info["source"] == "nucleus":
             return info["id"]
@@ -415,14 +415,14 @@ if __name__ == '__main__':
                         metavar="<command>",
                         help="'train' or 'detect'")
     parser.add_argument('--dataset', required=False,
-                        metavar="/path/to/dataset/",
+                        metavar="/docs/to/dataset/",
                         help='Root directory of the dataset')
     parser.add_argument('--weights', required=True,
-                        metavar="/path/to/weights.h5",
+                        metavar="/docs/to/weights.h5",
                         help="Path to weights .h5 file or 'coco'")
     parser.add_argument('--logs', required=False,
                         default=DEFAULT_LOGS_DIR,
-                        metavar="/path/to/logs/",
+                        metavar="/docs/to/logs/",
                         help='Logs and checkpoints directory (default=logs/)')
     parser.add_argument('--subset', required=False,
                         metavar="Dataset sub-directory",
