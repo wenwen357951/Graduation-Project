@@ -8,7 +8,7 @@ import numpy as np
 
 # Import doc.config
 sys.path.append("../../../")
-from docs import config
+from modules.trclab import config
 
 
 def random_color():
@@ -28,11 +28,11 @@ def main():
         return
 
     filename_hj = "{}{}".format(os.path.basename(img_file), os.path.getsize(img_file))
-    # filename_or = os.path.join(
+    # filename_or = os.docs.join(
     #     config.ASSETS_DA_CT_RIGHT_5o_DIR,
     #     "{}".format(
-    #         os.path.basename(img_file)
-    #         os.path.basename(img_file).split('.')[0]
+    #         os.docs.basename(img_file)
+    #         os.docs.basename(img_file).split('.')[0]
     #     )
     data = json_data[filename_hj]
     size = len(data["regions"])

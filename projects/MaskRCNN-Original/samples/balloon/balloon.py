@@ -12,19 +12,19 @@ Usage: import the module (see Jupyter notebooks for examples), or run from
        the command line as such:
 
     # Train a new model starting from pre-trained COCO weights
-    python3 balloon.py train --dataset=/path/to/balloon/dataset --weights=coco
+    python3 balloon.py train --dataset=/docs/to/balloon/dataset --weights=coco
 
     # Resume training a model that you had trained earlier
-    python3 balloon.py train --dataset=/path/to/balloon/dataset --weights=last
+    python3 balloon.py train --dataset=/docs/to/balloon/dataset --weights=last
 
     # Train a new model starting from ImageNet weights
-    python3 balloon.py train --dataset=/path/to/balloon/dataset --weights=imagenet
+    python3 balloon.py train --dataset=/docs/to/balloon/dataset --weights=imagenet
 
     # Apply color splash to an image
-    python3 balloon.py splash --weights=/path/to/weights/file.h5 --image=<URL or path to file>
+    python3 balloon.py splash --weights=/docs/to/weights/file.h5 --image=<URL or docs to file>
 
     # Apply color splash to video using the last weights you trained
-    python3 balloon.py splash --weights=last --video=<URL or path to file>
+    python3 balloon.py splash --weights=last --video=<URL or docs to file>
 """
 
 import os
@@ -173,10 +173,10 @@ class BalloonDataset(utils.Dataset):
         return mask.astype(np.bool_), np.ones([mask.shape[-1]], dtype=np.int32)
 
     def image_reference(self, image_id):
-        """Return the path of the image."""
+        """Return the docs of the image."""
         info = self.image_info[image_id]
         if info["source"] == "balloon":
-            return info["path"]
+            return info["docs"]
         else:
             super(self.__class__, self).image_reference(image_id)
 
@@ -289,20 +289,20 @@ if __name__ == '__main__':
                         metavar="<command>",
                         help="'train' or 'splash'")
     parser.add_argument('--dataset', required=False,
-                        metavar="/path/to/balloon/dataset/",
+                        metavar="/docs/to/balloon/dataset/",
                         help='Directory of the Balloon dataset')
     parser.add_argument('--weights', required=True,
-                        metavar="/path/to/weights.h5",
+                        metavar="/docs/to/weights.h5",
                         help="Path to weights .h5 file or 'coco'")
     parser.add_argument('--logs', required=False,
                         default=DEFAULT_LOGS_DIR,
-                        metavar="/path/to/logs/",
+                        metavar="/docs/to/logs/",
                         help='Logs and checkpoints directory (default=logs/)')
     parser.add_argument('--image', required=False,
-                        metavar="path or URL to image",
+                        metavar="docs or URL to image",
                         help='Image to apply the color splash effect on')
     parser.add_argument('--video', required=False,
-                        metavar="path or URL to video",
+                        metavar="docs or URL to video",
                         help='Video to apply the color splash effect on')
     args = parser.parse_args()
 

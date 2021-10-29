@@ -97,8 +97,8 @@ def identity_block(input_tensor, kernel_size, filters, stage, block,
     """The identity_block is the block that has no conv layer at shortcut
     # Arguments
         input_tensor: input tensor
-        kernel_size: default 3, the kernel size of middle conv layer at main path
-        filters: list of integers, the nb_filters of 3 conv layer at main path
+        kernel_size: default 3, the kernel size of middle conv layer at main docs
+        filters: list of integers, the nb_filters of 3 conv layer at main docs
         stage: integer, current stage label, used for generating layer names
         block: 'a','b'..., current block label, used for generating layer names
         use_bias: Boolean. To use or not use a bias in conv layers.
@@ -132,13 +132,13 @@ def conv_block(input_tensor, kernel_size, filters, stage, block,
     """conv_block is the block that has a conv layer at shortcut
     # Arguments
         input_tensor: input tensor
-        kernel_size: default 3, the kernel size of middle conv layer at main path
-        filters: list of integers, the nb_filters of 3 conv layer at main path
+        kernel_size: default 3, the kernel size of middle conv layer at main docs
+        filters: list of integers, the nb_filters of 3 conv layer at main docs
         stage: integer, current stage label, used for generating layer names
         block: 'a','b'..., current block label, used for generating layer names
         use_bias: Boolean. To use or not use a bias in conv layers.
         train_bn: Boolean. Train or freeze Batch Norm layers
-    Note that from stage 3, the first conv layer at main path is with subsample=(2,2)
+    Note that from stage 3, the first conv layer at main docs is with subsample=(2,2)
     And the shortcut should have subsample=(2,2) as well
     """
     nb_filter1, nb_filter2, nb_filter3 = filters
@@ -2073,7 +2073,7 @@ class MaskRCNN(object):
         """Finds the last checkpoint file of the last trained model in the
         model directory.
         Returns:
-            The path of the last checkpoint file
+            The docs of the last checkpoint file
         """
         # Get directory names. Each directory corresponds to a model
         dir_names = next(os.walk(self.model_dir))[1]
@@ -2136,7 +2136,7 @@ class MaskRCNN(object):
 
     def get_imagenet_weights(self):
         """Downloads ImageNet trained weights from Keras.
-        Returns path to weights file.
+        Returns docs to weights file.
         """
         from keras.utils.data_utils import get_file
         TF_WEIGHTS_PATH_NO_TOP = 'https://github.com/fchollet/deep-learning-models/'\
@@ -2242,12 +2242,12 @@ class MaskRCNN(object):
         self.epoch = 0
         now = datetime.datetime.now()
 
-        # If we have a model path with date and epochs use them
+        # If we have a model docs with date and epochs use them
         if model_path:
             # Continue from we left of. Get epoch and date from the file name
-            # A sample model path might look like:
-            # \path\to\logs\coco20171029T2315\mask_rcnn_coco_0001.h5 (Windows)
-            # /path/to/logs/coco20171029T2315/mask_rcnn_coco_0001.h5 (Linux)
+            # A sample model docs might look like:
+            # \docs\to\logs\coco20171029T2315\mask_rcnn_coco_0001.h5 (Windows)
+            # /docs/to/logs/coco20171029T2315/mask_rcnn_coco_0001.h5 (Linux)
             regex = r".*[/\\][\w-]+(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})[/\\]mask\_rcnn\_[\w-]+(\d{4})\.h5"
             # Use string for regex since we might want to use pathlib.Path as model_path
             m = re.match(regex, str(model_path))
