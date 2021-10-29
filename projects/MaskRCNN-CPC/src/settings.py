@@ -1,15 +1,12 @@
 import os
 import sys
 
-sys.path.append("../../../docs")
-from docs import config
-
+# 為系統添加此專案路徑，來找到 mrcnn 函式庫
+sys.path.append("../../../modules")
 ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
 DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs")
 COCO_WEIGHTS_PATH = os.path.join(ROOT_DIR, "mask_rcnn_coco.h5")
 
-# 為系統添加此專案路徑，來找到 mrcnn 函式庫
-sys.path.append(config.MODULES_DIR)
 # noinspection PyUnresolvedReferences
 from mrcnn.config import Config
 
