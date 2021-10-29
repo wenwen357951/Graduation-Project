@@ -6,7 +6,7 @@ sys.path.append("../../../docs")
 # noinspection PyUnresolvedReferences
 import config
 
-# Append modules dir to system path
+# Append modules dir to system docs
 sys.path.append(config.MODULES_DIR)
 # noinspection PyUnresolvedReferences
 # Import trclab modules
