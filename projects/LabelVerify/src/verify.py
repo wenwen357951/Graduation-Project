@@ -2,6 +2,8 @@ import json
 import os
 import sys
 
+import glob2
+
 # Import doc.config
 sys.path.append("../../../modules")
 # from docs import config
@@ -9,12 +11,11 @@ from modules.trclab import config
 
 
 # noinspection PyUnresolvedReferences
-def main():
-    image_dir = config.DATASET_DA_CT_R_5o
-    print(image_dir)
-    files = [os.path.join(image_dir, f) for f in os.listdir(image_dir)]
+def verify(dataset_dir, json_basename):
+    image_dir = dataset_dir
+    files = glob2.glob(os.path.join(image_dir, "*.jpg"), recursive=True)
 
-    with open(os.path.join(config.LABEL_MRCNN_DIR, "normal_R5.json"), 'r') as json_file:
+    with open(os.path.join(dataset_dir, json_basename), 'r') as json_file:
         json_data = json.load(json_file)
         if json_data is None:
             return
@@ -36,4 +37,15 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    KFOLD_DIR = os.path.join(config.LOGS_DIR, "k-fold")
+
+    ALL_DIR = [
+        "BCDE",
+        "ACDE",
+        "ABDE",
+        "ABCE",
+        "ABCD"
+    ]
+
+    for item in ALL_DIR:
+        verify(os.path.join(KFOLD_DIR, item), "via_region_data.json")
