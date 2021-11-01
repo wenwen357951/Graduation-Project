@@ -168,6 +168,7 @@ def main():
                     new_basename = new_key[:new_key.find(extension) + len(extension)]
                     new_json_data = dict()
                     new_json_data[new_key] = old_json_data[old_key]
+                    new_json_data[new_key]["filename"] = new_basename
                     k_fold.next(new_json_data, old_filename, new_basename)
 
             print("Grouping Done! --> Next...")
