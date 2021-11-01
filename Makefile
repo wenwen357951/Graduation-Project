@@ -4,33 +4,33 @@ include $(cnf)
 ENV_YAML := CPC-MaskRCNN-Normal.yml
 
 ifeq ($(OS), Windows_NT)
-	detected_OS := Windows
+	DETECTED_OS := Windows
 else
-	detected_OS := $(shell sh -c 'uname -s 2>/dev/null || echo not')
+	DETECTED_OS := $(shell sh -c 'uname -s 2>/dev/null || echo not')
 	export $(shell sed 's/=.*//' $(cnf))
 
-	ifeq ($(detected_OS), Darwin)
+	ifeq ($(DETECTED_OS), Darwin)
 		ENV_YAML := environment.yml
 	endif
 endif
 
 DOCKER_PATH := .docker/Dockerfile
 
-$(info Detected OS: $(detected_OS))
+$(info Detected OS: $(DETECTED_OS))
 $(info Docker Path: $(DOCKER_PATH))
 
 .PHONY: help
 .DEFAULT_GOAL := help
 
 help: ## This help message
-ifeq ($(detected_OS), Windows)
+ifeq ($(DETECTED_OS), Windows)
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "%-30s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 else
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 endif
 
 build: ## Build the container
-	docker build -t $(APP_NAME) --build-arg ENV_YAML=$(ENV_YAML) -f ${DOCKER_PATH} .
+	docker build -t $(APP_NAME) --build-arg ENV_YAML=$(ENV_YAML) --build-arg DETECTED_OS=$(DETECTED_OS) -f ${DOCKER_PATH} .
 
 build-nc: ## Build the container without cache
 	docker build --no-cache -t $(APP_NAME) --build-arg ENV_YAML=$(ENV_YAML) -f ${DOCKER_PATH} .
