@@ -1,5 +1,6 @@
 ### Custom
 /logs/*.json
+*.tar
 
 
 ### JetBrains template
