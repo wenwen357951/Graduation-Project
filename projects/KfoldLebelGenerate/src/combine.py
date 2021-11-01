@@ -10,18 +10,17 @@ from modules.trclab import config
 
 OUTPUT_DIR = os.path.join(config.LOGS_DIR, "k-fold")
 
-A_LABEL_PATH = 'E:/PCP-NEW/Graduation-Project/logs/k-fold/A/via_region_data.json'
-B_LABEL_PATH = 'E:/PCP-NEW/Graduation-Project/logs/k-fold/B/via_region_data.json'
-C_LABEL_PATH = 'E:/PCP-NEW/Graduation-Project/logs/k-fold/C/via_region_data.json'
-D_LABEL_PATH = 'E:/PCP-NEW/Graduation-Project/logs/k-fold/D/via_region_data.json'
-E_LABEL_PATH = 'E:/PCP-NEW/Graduation-Project/logs/k-fold/E/via_region_data.json'
+A_LABEL_PATH = "E:/PCP-NEW/Graduation-Project/logs/k-fold/A/via_region_data.json"
+B_LABEL_PATH = "E:/PCP-NEW/Graduation-Project/logs/k-fold/B/via_region_data.json"
+C_LABEL_PATH = "E:/PCP-NEW/Graduation-Project/logs/k-fold/C/via_region_data.json"
+D_LABEL_PATH = "E:/PCP-NEW/Graduation-Project/logs/k-fold/D/via_region_data.json"
+E_LABEL_PATH = "E:/PCP-NEW/Graduation-Project/logs/k-fold/E/via_region_data.json"
 
 A_IMAGE_DIR = "E:/PCP-NEW/Graduation-Project/logs/k-fold/A"
 B_IMAGE_DIR = "E:/PCP-NEW/Graduation-Project/logs/k-fold/B"
 C_IMAGE_DIR = "E:/PCP-NEW/Graduation-Project/logs/k-fold/C"
 D_IMAGE_DIR = "E:/PCP-NEW/Graduation-Project/logs/k-fold/D"
 E_IMAGE_DIR = "E:/PCP-NEW/Graduation-Project/logs/k-fold/E"
-ABCD_IMAGE_DIR = 'E:/PCP-NEW/Graduation-Project/logs/k-fold/ABCD'
 
 DATASET_PATH = [
     A_IMAGE_DIR,
