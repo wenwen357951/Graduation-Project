@@ -1,6 +1,14 @@
 ### Custom
 /logs/*.json
 *.tar
+/logs
+/logs/*
+event.out-tfevents.*
+*.h5
+*.profile-empty
+*.pb
+*.gz
+
 
 
 ### JetBrains template
@@ -296,3 +304,4 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+/logs/

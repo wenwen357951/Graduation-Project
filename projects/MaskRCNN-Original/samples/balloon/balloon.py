@@ -1,51 +1,22 @@
-"""
-Mask R-CNN
-Train on the toy Balloon dataset and implement color splash effect.
-
-Copyright (c) 2018 Matterport, Inc.
-Licensed under the MIT License (see LICENSE for details)
-Written by Waleed Abdulla
-
-------------------------------------------------------------
-
-Usage: import the module (see Jupyter notebooks for examples), or run from
-       the command line as such:
-
-    # Train a new model starting from pre-trained COCO weights
-    python3 balloon.py train --dataset=/docs/to/balloon/dataset --weights=coco
-
-    # Resume training a model that you had trained earlier
-    python3 balloon.py train --dataset=/docs/to/balloon/dataset --weights=last
-
-    # Train a new model starting from ImageNet weights
-    python3 balloon.py train --dataset=/docs/to/balloon/dataset --weights=imagenet
-
-    # Apply color splash to an image
-    python3 balloon.py splash --weights=/docs/to/weights/file.h5 --image=<URL or docs to file>
-
-    # Apply color splash to video using the last weights you trained
-    python3 balloon.py splash --weights=last --video=<URL or docs to file>
-"""
-
+import datetime
+import json
 import os
 import sys
-import json
-import datetime
+
 import numpy as np
 import skimage.draw
 
 # Root directory of the project
 ROOT_DIR = os.path.abspath("../../../../")
-DOCS_DIR = os.path.join(ROOT_DIR, "docs")
+MODULES_DIR = os.path.join(ROOT_DIR, "modules")
 sys.path.append(ROOT_DIR)
-sys.path.append(DOCS_DIR)
+sys.path.append(MODULES_DIR)
 
-import config as docs
+from trclab import config as docs
 
 # Import Mask RCNN
-sys.path.append(docs.MODULES_DIR)  # To find local version of the library
 from mrcnn.config import Config
-from mrcnn import model as modellib, utils
+from mrcnn import model as model_lib, utils
 
 # Path to trained weights file
 COCO_WEIGHTS_PATH = os.path.join("mask_rcnn_coco.h5")
@@ -54,27 +25,35 @@ COCO_WEIGHTS_PATH = os.path.join("mask_rcnn_coco.h5")
 # through the command line argument --logs
 DEFAULT_LOGS_DIR = docs.LOGS_DIR
 
+TRAINING_NAME = "CPC-COCO"
+EPOCHS = 500
+STEPS_PER_EPOCHS = 100
+CLASSES = [line.strip() for line in
+           open(os.path.join(docs.RESOURCES_KFOLD_DIR, "peritoneal_cavity.txt"), 'r', encoding="UTF-8")]
+CLASSES_NUM = len(CLASSES)
+
+
 ############################################################
 #  Configurations
 ############################################################
 
 
-class BalloonConfig(Config):
+class TrainConfig(Config):
     """Configuration for training on the toy  dataset.
     Derives from the base Config class and overrides some values.
     """
     # Give the configuration a recognizable name
-    NAME = "balloon"
+    NAME = TRAINING_NAME
 
     # We use a GPU with 12GB memory, which can fit two images.
     # Adjust down if you use a smaller GPU.
     IMAGES_PER_GPU = 2
 
     # Number of classes (including background)
-    NUM_CLASSES = 1 + 1  # Background + balloon
+    NUM_CLASSES = 1 + CLASSES_NUM  # Background + classes
 
     # Number of training steps per epoch
-    STEPS_PER_EPOCH = 100
+    STEPS_PER_EPOCH = STEPS_PER_EPOCHS
 
     # Skip detections with < 90% confidence
     DETECTION_MIN_CONFIDENCE = 0.9
@@ -92,7 +71,8 @@ class BalloonDataset(utils.Dataset):
         subset: Subset to load: train or val
         """
         # Add classes. We have only one class to add.
-        self.add_class("balloon", 1, "balloon")
+        for x in range(CLASSES_NUM):
+            self.add_class(TRAINING_NAME, x + 1, CLASSES[x])
 
         # Train or validation dataset?
         assert subset in ["train", "val"]
@@ -140,7 +120,7 @@ class BalloonDataset(utils.Dataset):
             height, width = image.shape[:2]
 
             self.add_image(
-                "balloon",
+                TRAINING_NAME,
                 image_id=a['filename'],  # use file name as a unique image id
                 path=image_path,
                 width=width, height=height,
@@ -155,7 +135,7 @@ class BalloonDataset(utils.Dataset):
         """
         # If not a balloon dataset image, delegate to parent class.
         image_info = self.image_info[image_id]
-        if image_info["source"] != "balloon":
+        if image_info["source"] != TRAINING_NAME:
             return super(self.__class__, self).load_mask(image_id)
 
         # Convert polygons to a bitmap mask of shape
@@ -175,7 +155,7 @@ class BalloonDataset(utils.Dataset):
     def image_reference(self, image_id):
         """Return the docs of the image."""
         info = self.image_info[image_id]
-        if info["source"] == "balloon":
+        if info["source"] == TRAINING_NAME:
             return info["docs"]
         else:
             super(self.__class__, self).image_reference(image_id)
@@ -200,7 +180,7 @@ def train(model):
     print("Training network heads")
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
-                epochs=30,
+                epochs=EPOCHS,
                 layers='heads')
 
 
@@ -319,9 +299,9 @@ if __name__ == '__main__':
 
     # Configurations
     if args.command == "train":
-        config = BalloonConfig()
+        config = TrainConfig()
     else:
-        class InferenceConfig(BalloonConfig):
+        class InferenceConfig(TrainConfig):
             # Set batch size to 1 since we'll be running inference on
             # one image at a time. Batch size = GPU_COUNT * IMAGES_PER_GPU
             GPU_COUNT = 1
@@ -331,11 +311,11 @@ if __name__ == '__main__':
 
     # Create model
     if args.command == "train":
-        model = modellib.MaskRCNN(mode="training", config=config,
-                                  model_dir=args.logs)
+        model = model_lib.MaskRCNN(mode="training", config=config,
+                                   model_dir=args.logs)
     else:
-        model = modellib.MaskRCNN(mode="inference", config=config,
-                                  model_dir=args.logs)
+        model = model_lib.MaskRCNN(mode="inference", config=config,
+                                   model_dir=args.logs)
 
     # Select weights file to load
     if args.weights.lower() == "coco":
