@@ -7,7 +7,7 @@ from PIL import Image
 ROOT_DIR = os.path.abspath("../../../")
 sys.path.append(ROOT_DIR)
 
-from docs import config
+from modules.trclab import config
 
 image_dir = config.ASSETS_VHP_SEG_DIR
 # image_dir = '/assets/data-augmentation/MirrorResize (1000 x 570)'

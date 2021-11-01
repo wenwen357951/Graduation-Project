@@ -4,21 +4,13 @@ from argparser import args
 import settings
 import sys
 
-# Root directory of the project
-DOCS_DIR = os.path.abspath("../../../docs")
-sys.path.append(DOCS_DIR)
-
-from docs import config
-
 #######################
 #   匯入 Mask R-CNN  #
 ####################
-
 # 為系統添加此專案路徑，來找到 mrcnn 函式庫
-sys.path.append(config.MODULES_DIR)
-# noinspection PyUnresolvedReferences
+sys.path.append("../../../modules")
+from modules.trclab import config
 from mrcnn import model as model_lib, utils
-
 
 if __name__ == '__main__':
     # Record the start time
@@ -39,13 +31,16 @@ if __name__ == '__main__':
     #######################
     #   訓練模型配置       #
     ####################
-
+    print("載入訓練模型配置: ")
     if args.command == "train":
+        print("  - 訓練配置 (Training)")
         config = settings.TrainingConfig()
     else:
+        print("  - 推論配置 (Inference)")
         config = settings.InferenceConfig()
 
     # # 顯示配置檔案
+    print("顯示配置設定")
     config.display()
 
     #######################

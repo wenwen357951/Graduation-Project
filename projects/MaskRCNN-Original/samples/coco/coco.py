@@ -12,19 +12,19 @@ Usage: import the module (see Jupyter notebooks for examples), or run from
        the command line as such:
 
     # Train a new model starting from pre-trained COCO weights
-    python3 coco.py train --dataset=/path/to/coco/ --model=coco
+    python3 coco.py train --dataset=/docs/to/coco/ --model=coco
 
     # Train a new model starting from ImageNet weights. Also auto download COCO dataset
-    python3 coco.py train --dataset=/path/to/coco/ --model=imagenet --download=True
+    python3 coco.py train --dataset=/docs/to/coco/ --model=imagenet --download=True
 
     # Continue training a model that you had trained earlier
-    python3 coco.py train --dataset=/path/to/coco/ --model=/path/to/weights.h5
+    python3 coco.py train --dataset=/docs/to/coco/ --model=/docs/to/weights.h5
 
     # Continue training the last model you trained
-    python3 coco.py train --dataset=/path/to/coco/ --model=last
+    python3 coco.py train --dataset=/docs/to/coco/ --model=last
 
     # Run COCO evaluatoin on the last model you trained
-    python3 coco.py evaluate --dataset=/path/to/coco/ --model=last
+    python3 coco.py evaluate --dataset=/docs/to/coco/ --model=last
 """
 
 import os
@@ -406,18 +406,18 @@ if __name__ == '__main__':
                         metavar="<command>",
                         help="'train' or 'evaluate' on MS COCO")
     parser.add_argument('--dataset', required=True,
-                        metavar="/path/to/coco/",
+                        metavar="/docs/to/coco/",
                         help='Directory of the MS-COCO dataset')
     parser.add_argument('--year', required=False,
                         default=DEFAULT_DATASET_YEAR,
                         metavar="<year>",
                         help='Year of the MS-COCO dataset (2014 or 2017) (default=2014)')
     parser.add_argument('--model', required=True,
-                        metavar="/path/to/weights.h5",
+                        metavar="/docs/to/weights.h5",
                         help="Path to weights .h5 file or 'coco'")
     parser.add_argument('--logs', required=False,
                         default=DEFAULT_LOGS_DIR,
-                        metavar="/path/to/logs/",
+                        metavar="/docs/to/logs/",
                         help='Logs and checkpoints directory (default=logs/)')
     parser.add_argument('--limit', required=False,
                         default=500,
