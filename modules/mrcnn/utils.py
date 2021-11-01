@@ -275,7 +275,7 @@ class Dataset(object):
         image_info = {
             "id": image_id,
             "source": source,
-            "path": path,
+            "docs": path,
         }
         image_info.update(kwargs)
         self.image_info.append(image_info)
@@ -344,17 +344,17 @@ class Dataset(object):
         return self._image_ids
 
     def source_image_link(self, image_id):
-        """Returns the path or URL to the image.
+        """Returns the docs or URL to the image.
         Override this to return a URL to the image if it's available online for easy
         debugging.
         """
-        return self.image_info[image_id]["path"]
+        return self.image_info[image_id]["docs"]
 
     def load_image(self, image_id):
         """Load the specified image and return a [H,W,3] Numpy array.
         """
         # Load image
-        image = skimage.io.imread(self.image_info[image_id]['path'])
+        image = skimage.io.imread(self.image_info[image_id]['docs'])
         # If grayscale. Convert to RGB for consistency.
         if image.ndim != 3:
             image = skimage.color.gray2rgb(image)
@@ -838,7 +838,7 @@ def batch_slice(inputs, graph_fn, batch_size, names=None):
 def download_trained_weights(coco_model_path, verbose=1):
     """Download COCO trained weights from Releases.
 
-    coco_model_path: local path of COCO trained weights
+    coco_model_path: local docs of COCO trained weights
     """
     if verbose > 0:
         print("Downloading pretrained model to " + coco_model_path + " ...")

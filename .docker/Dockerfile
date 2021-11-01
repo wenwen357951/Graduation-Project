@@ -56,7 +56,7 @@ RUN apt install libgl1-mesa-glx -y
 #        find /opt/conda/ -follow -type f -name '*.js.map' -delete && \
 #        /opt/conda/bin/conda clean -afy
 #
-## set path to conda
+## set docs to conda
 #ENV PATH /opt/conda/bin:$PATH
 #
 #CMD export PATH=$PATH:/opt/conda/bin; /bin/echo -e "ADDITIONAL_PATH is /opt/conda/bin\nPATH is $PATH"
