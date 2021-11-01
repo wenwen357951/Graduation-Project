@@ -90,6 +90,9 @@ LABEL_MRCNN_R5 = os.path.join(LABEL_MRCNN_DIR, "normal_r5.json")
 LABEL_MRCNN_R10 = os.path.join(LABEL_MRCNN_DIR, "normal_r10.json")
 
 # # TrainingDataset
-RESOURCES_ACP_DIR = os.path.join(RESOURCES_DIR, "TrainingDataset")
-ACP_DATASET = os.path.join(RESOURCES_ACP_DIR, "dataset")
-ACP_LABEL_DIR = os.path.join(RESOURCES_ACP_DIR, "label")
+RESOURCES_KFOLD_DIR = os.path.join(RESOURCES_DIR, "k-fold")
+DATASET_KFOLD_A = os.path.join(RESOURCES_KFOLD_DIR, "A")
+DATASET_KFOLD_B = os.path.join(RESOURCES_KFOLD_DIR, "B")
+DATASET_KFOLD_C = os.path.join(RESOURCES_KFOLD_DIR, "C")
+DATASET_KFOLD_D = os.path.join(RESOURCES_KFOLD_DIR, "D")
+DATASET_KFOLD_E = os.path.join(RESOURCES_KFOLD_DIR, "E")

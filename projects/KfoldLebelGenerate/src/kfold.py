@@ -68,7 +68,7 @@ LABEL_DICT = {
 
 class KFold:
     def __init__(self, output_dir, fold_arr=None):
-        # 創造存放資料夾
+
         if fold_arr is None:
             fold_arr = ["A", "B", "C", "D", "E"]
 
