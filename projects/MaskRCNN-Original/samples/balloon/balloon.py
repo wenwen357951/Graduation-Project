@@ -28,7 +28,8 @@ DEFAULT_LOGS_DIR = docs.LOGS_DIR
 TRAINING_NAME = "CPC-COCO"
 EPOCHS = 500
 STEPS_PER_EPOCHS = 100
-CLASSES = [line.strip() for line in open(os.path.join(docs.RESOURCES_KFOLD_DIR, "peritoneal_cavity.txt"), 'r')]
+CLASSES = [line.strip() for line in
+           open(os.path.join(docs.RESOURCES_KFOLD_DIR, "peritoneal_cavity.txt"), 'r', encoding="UTF-8")]
 CLASSES_NUM = len(CLASSES)
 
 
