@@ -12,6 +12,17 @@ sys.path.append("../../../modules")
 from modules.trclab import config
 from mrcnn import model as model_lib, utils
 
+from dataset import CPCDataset
+
+
+def train(model):
+    dataset_train = CPCDataset()
+
+
+def color_splash(image, mask):
+    pass
+
+
 if __name__ == '__main__':
     # Record the start time
     START_TIME = datetime.now()
@@ -47,13 +58,13 @@ if __name__ == '__main__':
     #   創建訓練模型       #
     ####################
     if args.command == "train":
-        model = model_lib.MaskRCNN(
+        MODEL = model_lib.MaskRCNN(
             mode="training",
             config=config,
             model_dir=args.logs
         )
     else:
-        model = model_lib.MaskRCNN(
+        MODEL = model_lib.MaskRCNN(
             mode="inference",
             config=config,
             model_dir=args.logs
@@ -72,16 +83,16 @@ if __name__ == '__main__':
 
     elif args.weights.lower() == "last":
         # 找到上一次訓練的權重檔案
-        weights_path = model.find_last()
+        weights_path = MODEL.find_last()
     elif args.weights.lower() == "imagenet":
-        weights_path = model.get_imagenet_weights()
+        weights_path = MODEL.get_imagenet_weights()
     else:
         weights_path = args.weights
 
     # 載入權重檔案
     print("Loading weights ", weights_path)
     if args.weights.lower() == "coco":
-        model.load_weights(
+        MODEL.load_weights(
             weights_path,
             by_name=True,
             exclude=[
@@ -92,17 +103,17 @@ if __name__ == '__main__':
             ]
         )
     else:
-        model.load_weights(
+        MODEL.load_weights(
             weights_path,
             by_name=True
         )
 
     # 進行訓練或是偵測辨識
     if args.command == "train":
-        train(model)
+        train(MODEL)
     elif args.command == "detect":
         detect_and_color_splash(
-            model,
+            MODEL,
             image_path=args.image,
             video_path=args.video
         )
