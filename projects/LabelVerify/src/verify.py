@@ -12,40 +12,45 @@ from modules.trclab import config
 
 # noinspection PyUnresolvedReferences
 def verify(dataset_dir, json_basename):
+    print("Start process " + dataset_dir, end='')
     image_dir = dataset_dir
     files = glob2.glob(os.path.join(image_dir, "*.jpg"), recursive=True)
-    files_basename = [os.path.basename(filename) for filename in files]
-    parent_dir = os.path.abspath(os.path.join(files[0], os.pardir))
 
     with open(os.path.join(dataset_dir, json_basename), 'r') as json_file:
         json_data = json.load(json_file)
         all_good = True
         for key in json_data:
             image_name = key.split(".jpg")[0] + ".jpg"
+            image_path = os.path.join(dataset_dir, image_name)
             image_size = int(key.split(".jpg")[1])
+            try:
+                if not os.path.exists(image_path):
+                    all_good = False
+                    raise FileNotFoundError
 
-        try:
-            if files_basename.index(image_name) < 0:
-                all_good = False
-                print("Index Error")
+                if str(os.path.getsize(image_path)) == image_size:
+                    all_good = False
+                    raise KeyError
 
-            if os.path.getsize(os.path.join(parent_dir, image_name)) != image_size:
-                all_good = False
-                print("Size Error!")
+            except FileNotFoundError:
+                print("Key:", key, "File Not Found! \n", image_path)
 
-        except KeyError:
-            all_good = False
-            print("Key Missing: " + key)
+            except KeyError:
+                print("Size Error: ", image_name, "Actual:", os.path.getsize(image_name))
 
-        finally:
-            if all_good:
-                print("All Pass!!")
+        if all_good:
+            print("\rAll Pass!!")
 
 
 if __name__ == '__main__':
     KFOLD_DIR = os.path.join(config.LOGS_DIR, "k-fold")
 
     ALL_DIR = [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
         "BCDE",
         "ACDE",
         "ABDE",
@@ -55,3 +60,5 @@ if __name__ == '__main__':
 
     for item in ALL_DIR:
         verify(os.path.join(KFOLD_DIR, item), "via_region_data.json")
+
+    print("done.")
