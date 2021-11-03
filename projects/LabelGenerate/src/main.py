@@ -2,14 +2,11 @@ import os
 import sys
 
 # Import docs config
-sys.path.append("../../../docs")
+sys.path.append("../../../modules")
 # noinspection PyUnresolvedReferences
-import config
+from trclab import config
 
-# Append modules dir to system docs
-sys.path.append(config.MODULES_DIR)
 # noinspection PyUnresolvedReferences
-# Import trclab modules
 import trclab.vhp as vhp
 
 if __name__ == '__main__':
@@ -53,10 +50,10 @@ if __name__ == '__main__':
     for (ct, seg, out) in zip(CT_DIRS, SEG_DIRS, OUTPUT_NAME):
         print("--------------STARTING PROCESS NEW--------------")
         # 讀取標籤
-        vhp_label = vhp.OrganLabel(os.path.join(config.ACP_LABEL_DIR, "peritoneal_cavity.txt"))
+        vhp_label = vhp.OrganLabel(os.path.join(config.RESOURCES_KFOLD_DIR, "peritoneal_cavity.txt"))
         # 讀入資料集
         seg_dataset = vhp.OrganDataset(seg, "*.bmp")
         # 設置標籤
         seg_dataset.set_label(vhp_label)
         # 匯出標記區域根據目標圖片(映射圖片)至輸出位置
-        seg_dataset.export_label_area(ct, "*.jpg", os.path.join(config.LOGS_DIR, out))
+        seg_dataset.export_label_area(ct, "*.jpg", os.path.join(config.LOGS_DIR, "k-fold", "label", out))

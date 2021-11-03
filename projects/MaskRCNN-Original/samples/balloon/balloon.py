@@ -32,6 +32,9 @@ CLASSES = [line.strip() for line in
            open(os.path.join(docs.RESOURCES_KFOLD_DIR, "peritoneal_cavity.txt"), 'r', encoding="UTF-8")]
 CLASSES_NUM = len(CLASSES)
 
+print(CLASSES)
+print(CLASSES_NUM)
+
 
 ############################################################
 #  Configurations
