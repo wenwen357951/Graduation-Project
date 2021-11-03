@@ -15,6 +15,7 @@ class OrganImageReader:
 
         self.image_rgb_set = set(image.get_rgb_list())
         self.label_rgb_list = []
+        self.label_list = label
         for rgb in label.get_rgb_list():
             self.label_rgb_list.append([*rgb, ])
 
@@ -53,3 +54,6 @@ class OrganImageReader:
 
     def get_index(self, xyz) -> int:
         return self.label_rgb_list.index(xyz) + 1
+
+    def get_name(self, index):
+        return self.label_list.get_name(index - 1)

@@ -12,23 +12,27 @@ ROOT_DIR = os.path.abspath("./")
 # Import Mask RCNN
 sys.path.append("../../modules")  # To find local version of the library
 # noinspection PyUnresolvedReferences
-from trclab import config
+from trclab import config as docs
 # noinspection PyUnresolvedReferences
 from mrcnn.config import Config
 # noinspection PyUnresolvedReferences
 from mrcnn import model as model_lib, utils
 
 # Path to trained weights file
-COCO_WEIGHTS_PATH = os.path.join(config.LOGS_DIR, "mask_rcnn_coco.h5")
+COCO_WEIGHTS_PATH = os.path.join(docs.LOGS_DIR, "mask_rcnn_coco.h5")
 
 # Directory to save logs and model checkpoints, if not provided
 # through the command line argument --logs
-DEFAULT_LOGS_DIR = config.LOGS_DIR
+DEFAULT_LOGS_DIR = docs.LOGS_DIR
 
-EPOCHS = 150
-TRAINING_NAME = "PCP"
-CLASSES = []
-with open(os.path.join(config.RESOURCES_KFOLD_DIR, "peritoneal_cavity.txt"), "r", encoding="UTF-8") as label_file:
+TRAINING_NAME = "CPC-COCO"
+EPOCHS = 500
+STEPS_PER_EPOCHS = 100
+CLASSES = [line.strip() for line in
+           open(os.path.join(docs.RESOURCES_KFOLD_DIR, "peritoneal_cavity.txt"), 'r', encoding="UTF-8")]
+CLASSES_NUM = len(CLASSES)
+
+with open(os.path.join(docs.RESOURCES_KFOLD_DIR, "peritoneal_cavity.txt"), "r", encoding="UTF-8") as label_file:
     counter = 0
     for line in label_file:
         class_array = line.split('\t')
@@ -79,8 +83,8 @@ class SomethingDataset(utils.Dataset):
         subset: Subset to load: train or val
         """
         # Add classes. We have only one class to add.
-        for idx, classes in enumerate(CLASSES):
-            self.add_class(TRAINING_NAME, idx + 1, classes)
+        for x in range(CLASSES_NUM):
+            self.add_class(TRAINING_NAME, x + 1, CLASSES[x])
 
         # Train or validation dataset?
         assert subset in ["train", "val"]

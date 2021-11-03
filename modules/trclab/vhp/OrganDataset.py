@@ -1,9 +1,9 @@
-import numpy
 import json
 import os
+from multiprocessing import Pool
 
+import numpy
 from glob2 import glob
-from multiprocessing import Pool, Manager
 
 from ..utils.ProgressBar import ProgressBar
 from ..vhp.OrganImage import OrganImage
@@ -68,7 +68,7 @@ def data_process(image, label, target_dir, extension):
             data[key]['regions'][region_idx]['shape_attributes']['all_points_x'] = list_x
             data[key]['regions'][region_idx]['shape_attributes']['all_points_y'] = list_y
             data[key]['regions'][region_idx]['region_attributes'] = {}
-            data[key]['regions'][region_idx]['region_attributes']['name'] = str(oir.get_index(organ))
+            data[key]['regions'][region_idx]['region_attributes']['name'] = oir.get_name(index)
             region_idx += 1
 
     progress_bar.finish("Process Successful!")
