@@ -1,3 +1,5 @@
+import sys
+
 import cv2
 import numpy as np
 
@@ -55,12 +57,20 @@ if __name__ == '__main__':
         test everything
     """
     import os
+
+    sys.path.append("../../modules")
+    from trclab import config as docs
+
     import mrcnn.model as modellib
     from mrcnn.config import Config
 
+    CLASSES = [line.strip() for line in
+               open(os.path.join(docs.RESOURCES_KFOLD_DIR, "peritoneal_cavity.txt"), 'r', encoding="UTF-8")]
+    CLASSES_NUM = len(CLASSES)
+
     ROOT_DIR = os.getcwd()
     MODEL_DIR = os.path.join(ROOT_DIR, 'logs')
-    MODEL_WEIGHT_PATH = os.path.join(MODEL_DIR, 'mask_rcnn_animal_0018.h5')
+    MODEL_WEIGHT_PATH = "E:/PCP-NEW/Graduation-Project/logs/coco/B/cpc-coco20211102T0217/mask_rcnn_cpc-coco_0500.h5"
 
     if not os.path.exists(MODEL_WEIGHT_PATH):
         print('Did not find this weight' + MODEL_WEIGHT_PATH)
@@ -68,11 +78,11 @@ if __name__ == '__main__':
 
 
     class BottleConfig(Config):
-        NAME = "animal"
+        NAME = "CPC-COCO"
 
         IMAGES_PER_GPU = 2
 
-        NUM_CLASSES = 1 + 2
+        NUM_CLASSES = 1 + CLASSES_NUM
 
 
     class InferenceConfig(BottleConfig):
@@ -83,7 +93,8 @@ if __name__ == '__main__':
     config = InferenceConfig()
     model = modellib.MaskRCNN(mode="inference", model_dir=MODEL_DIR, config=config)
     model.load_weights(MODEL_WEIGHT_PATH, by_name=True)
-    class_names = ['BG', 'dog', 'cat']
+    class_names = CLASSES.insert(0, "BG")
+    print(class_names)
 
     capture = cv2.VideoCapture(0)
 

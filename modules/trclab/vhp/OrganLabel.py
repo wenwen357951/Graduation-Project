@@ -33,6 +33,9 @@ class OrganLabel(ISerializable):
 
         return rgb_set
 
+    def get_name(self, index):
+        return self.labels[index][0]
+
     def serialize(self):
         data = {}
         for n in range(0, len(self.labels)):
