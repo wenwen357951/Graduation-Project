@@ -25,11 +25,12 @@ COCO_WEIGHTS_PATH = os.path.join("mask_rcnn_coco.h5")
 # through the command line argument --logs
 DEFAULT_LOGS_DIR = docs.LOGS_DIR
 
-TRAINING_NAME = "CPC-COCO"
-EPOCHS = 500
-STEPS_PER_EPOCHS = 100
+TRAINING_NAME = "Peritoneal_A_COCO"
+EPOCHS = 100
+STEPS_PER_EPOCHS = 1000
 CLASSES = [line.strip() for line in
-           open(os.path.join(docs.RESOURCES_KFOLD_DIR, "peritoneal_cavity.txt"), 'r', encoding="UTF-8")]
+           open(os.path.join(docs.RESOURCES_KFOLD_DIR,
+                             "peritoneal_cavity_without_color.txt"), 'r', encoding="UTF-8")]
 CLASSES_NUM = len(CLASSES)
 
 print(CLASSES)
@@ -50,7 +51,7 @@ class TrainConfig(Config):
 
     # We use a GPU with 12GB memory, which can fit two images.
     # Adjust down if you use a smaller GPU.
-    IMAGES_PER_GPU = 2
+    IMAGES_PER_GPU = 4
 
     # Number of classes (including background)
     NUM_CLASSES = 1 + CLASSES_NUM  # Background + classes
@@ -74,6 +75,7 @@ class BalloonDataset(utils.Dataset):
         subset: Subset to load: train or val
         """
         # Add classes. We have only one class to add.
+        # noinspection DuplicatedCode
         for x in range(CLASSES_NUM):
             self.add_class(TRAINING_NAME, x + 1, CLASSES[x])
 
