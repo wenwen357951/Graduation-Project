@@ -146,6 +146,7 @@ class BalloonDataset(utils.Dataset):
         # Convert polygons to a bitmap mask of shape
         # [height, width, instance_count]
         info = self.image_info[image_id]
+        class_names = info["names"]
         mask = np.zeros([info["height"], info["width"], len(info["polygons"])],
                         dtype=np.uint8)
         for i, p in enumerate(info["polygons"]):
@@ -153,9 +154,15 @@ class BalloonDataset(utils.Dataset):
             rr, cc = skimage.draw.polygon(p['all_points_y'], p['all_points_x'])
             mask[rr, cc, i] = 1
 
+        class_ids = np.zeros([len(info["polygons"])])
+        for i, p in enumerate(class_names):
+            if p['name'] in CLASSES:
+                class_ids[i] = CLASSES.index(p['name']) + 1
+
+        class_ids = class_ids.astype(int)
         # Return mask, and array of class IDs of each instance. Since we have
         # one class ID only, we return an array of 1s
-        return mask.astype(np.bool_), np.ones([mask.shape[-1]], dtype=np.int32)
+        return mask.astype(np.bool_), class_ids
 
     def image_reference(self, image_id):
         """Return the docs of the image."""
