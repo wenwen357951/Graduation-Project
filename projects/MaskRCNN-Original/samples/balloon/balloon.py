@@ -53,7 +53,7 @@ class TrainConfig(Config):
     # Adjust down if you use a smaller GPU.
     IMAGES_PER_GPU = 4
 
-    GPU_COUNT = 2
+    GPU_COUNT = 1
 
     # Number of classes (including background)
     NUM_CLASSES = 1 + CLASSES_NUM  # Background + classes
