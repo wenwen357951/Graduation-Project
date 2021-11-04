@@ -14,7 +14,7 @@ from mrcnn.config import Config
 # noinspection PyUnresolvedReferences
 from trclab import config as docs
 
-MODEL_WEIGHT_PATH = os.path.join(docs.LOGS_DIR, "peritoneal_a_coco20211103T2100", "mask_rcnn_peritoneal_a_coco_0026.h5")
+MODEL_WEIGHT_PATH = os.path.join(docs.LOGS_DIR, "peritoneal_a_coco20211104T1807", "mask_rcnn_peritoneal_a_coco_0002.h5")
 
 if not os.path.exists(MODEL_WEIGHT_PATH):
     print('Did not find this weight' + MODEL_WEIGHT_PATH)
