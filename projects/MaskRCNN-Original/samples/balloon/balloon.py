@@ -53,6 +53,8 @@ class TrainConfig(Config):
     # Adjust down if you use a smaller GPU.
     IMAGES_PER_GPU = 4
 
+    GPU_COUNT = 1
+
     # Number of classes (including background)
     NUM_CLASSES = 1 + CLASSES_NUM  # Background + classes
 
@@ -114,8 +116,10 @@ class BalloonDataset(utils.Dataset):
             # The if condition is needed to support VIA versions 1.x and 2.x.
             if type(a['regions']) is dict:
                 polygons = [r['shape_attributes'] for r in a['regions'].values()]
+                names = [r['region_attributes'] for r in a['regions'].values()]
             else:
-                polygons = [r['shape_attributes'] for r in a['regions']] 
+                polygons = [r['shape_attributes'] for r in a['regions']]
+                names = [r['region_attributes'] for r in a['regions']]
 
             # load_mask() needs the image size to convert polygons to masks.
             # Unfortunately, VIA doesn't include it in JSON, so we must read
@@ -129,7 +133,7 @@ class BalloonDataset(utils.Dataset):
                 image_id=a['filename'],  # use file name as a unique image id
                 path=image_path,
                 width=width, height=height,
-                polygons=polygons)
+                polygons=polygons, names=names)
 
     def load_mask(self, image_id):
         """Generate instance masks for an image.
@@ -140,6 +144,7 @@ class BalloonDataset(utils.Dataset):
         """
         # If not a balloon dataset image, delegate to parent class.
         image_info = self.image_info[image_id]
+        class_names = image_info["names"]
         if image_info["source"] != TRAINING_NAME:
             return super(self.__class__, self).load_mask(image_id)
 
@@ -153,9 +158,15 @@ class BalloonDataset(utils.Dataset):
             rr, cc = skimage.draw.polygon(p['all_points_y'], p['all_points_x'])
             mask[rr, cc, i] = 1
 
+        class_ids = np.zeros([len(info["polygons"])])
+        for i, p in enumerate(class_names):
+            if p['name'] in CLASSES:
+                class_ids[i] = CLASSES.index(p['name']) + 1
+
+        class_ids = class_ids.astype(int)
         # Return mask, and array of class IDs of each instance. Since we have
         # one class ID only, we return an array of 1s
-        return mask.astype(np.bool_), np.ones([mask.shape[-1]], dtype=np.int32)
+        return mask.astype(np.bool_), class_ids
 
     def image_reference(self, image_id):
         """Return the docs of the image."""
