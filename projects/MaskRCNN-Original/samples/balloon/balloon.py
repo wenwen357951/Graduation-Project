@@ -116,8 +116,10 @@ class BalloonDataset(utils.Dataset):
             # The if condition is needed to support VIA versions 1.x and 2.x.
             if type(a['regions']) is dict:
                 polygons = [r['shape_attributes'] for r in a['regions'].values()]
+                names = [r['region_attributes'] for r in a['regions'].values()]
             else:
-                polygons = [r['shape_attributes'] for r in a['regions']] 
+                polygons = [r['shape_attributes'] for r in a['regions']]
+                names = [r['region_attributes'] for r in a['regions']]
 
             # load_mask() needs the image size to convert polygons to masks.
             # Unfortunately, VIA doesn't include it in JSON, so we must read
@@ -131,7 +133,7 @@ class BalloonDataset(utils.Dataset):
                 image_id=a['filename'],  # use file name as a unique image id
                 path=image_path,
                 width=width, height=height,
-                polygons=polygons)
+                polygons=polygons, names=names)
 
     def load_mask(self, image_id):
         """Generate instance masks for an image.
@@ -142,13 +144,13 @@ class BalloonDataset(utils.Dataset):
         """
         # If not a balloon dataset image, delegate to parent class.
         image_info = self.image_info[image_id]
+        class_names = image_info["names"]
         if image_info["source"] != TRAINING_NAME:
             return super(self.__class__, self).load_mask(image_id)
 
         # Convert polygons to a bitmap mask of shape
         # [height, width, instance_count]
         info = self.image_info[image_id]
-        class_names = info["names"]
         mask = np.zeros([info["height"], info["width"], len(info["polygons"])],
                         dtype=np.uint8)
         for i, p in enumerate(info["polygons"]):
