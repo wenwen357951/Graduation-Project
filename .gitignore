@@ -1,15 +1,19 @@
 ### Custom
-/logs/*.json
-*.tar
 /logs
 /logs/*
+/logs/**/*
+/resources/**/*.json
+/resources/**/*.txt
+*.tar
+
+### MaskRCNN Training
 event.out-tfevents.*
 *.h5
 *.profile-empty
 *.pb
+
+### Archive File
 *.gz
-
-
 
 ### JetBrains template
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
