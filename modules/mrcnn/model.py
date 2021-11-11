@@ -2139,13 +2139,14 @@ class MaskRCNN(object):
         Returns docs to weights file.
         """
         from keras.utils.data_utils import get_file
-        TF_WEIGHTS_PATH_NO_TOP = 'https://github.com/fchollet/deep-learning-models/'\
-                                 'releases/download/v0.2/'\
-                                 'resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5'
-        weights_path = get_file('resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5',
+
+        TF_WEIGHTS_PATH_NO_TOP = 'https://github.com/GKalliatakis/Keras-Application-Zoo/' \
+                                 'releases/download/0.2/' \
+                                 'resnet101_weights_tf_dim_ordering_tf_kernels_notop.h5'
+        weights_path = get_file('resnet101_weights_tf_dim_ordering_tf_kernels_notop.h5',
                                 TF_WEIGHTS_PATH_NO_TOP,
                                 cache_subdir='models',
-                                md5_hash='a268eb855778b3df3c7506639542a6af')
+                                md5_hash='af61b47f5f75bd49dd7c14850a8c7d99')
         return weights_path
 
     def compile(self, learning_rate, momentum):
