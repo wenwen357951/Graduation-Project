@@ -1,10 +1,10 @@
 import os
-import random
 import sys
 
 sys.path.append("../../modules")
 
 import skimage.io
+from skimage.color import gray2rgb
 # noinspection PyUnresolvedReferences
 import mrcnn.model as modellib
 # noinspection PyUnresolvedReferences
@@ -14,12 +14,12 @@ from mrcnn.config import Config
 # noinspection PyUnresolvedReferences
 from trclab import config as docs
 
-MODEL_WEIGHT_PATH = os.path.join(docs.LOGS_DIR, "peritoneal_a_coco20211104T1807", "mask_rcnn_peritoneal_a_coco_0002.h5")
+MODEL_WEIGHT_PATH = os.path.join(docs.LOGS_DIR, "peritoneal_a_coco20211104T2156", "mask_rcnn_peritoneal_a_coco_0100.h5")
 
 if not os.path.exists(MODEL_WEIGHT_PATH):
     print('Did not find this weight' + MODEL_WEIGHT_PATH)
 
-IMAGE_DIR = os.path.join(docs.DATASET_KFOLD_E, "val")
+IMAGE_DIR = os.path.join(docs.DATASET_KFOLD_A, "val")
 CLASSES = [line.strip() for line in
            open(os.path.join(docs.RESOURCES_KFOLD_DIR,
                              "peritoneal_cavity_without_color.txt"), 'r', encoding="UTF-8")]
@@ -50,11 +50,13 @@ model.load_weights(MODEL_WEIGHT_PATH, by_name=True)
 class_names = CLASSES
 file_names = next(os.walk(IMAGE_DIR))[2]
 
-random_image = os.path.join(IMAGE_DIR, random.choice(file_names))
+# random_image = os.path.join(IMAGE_DIR, random.choice(file_names))
+random_image = os.path.join(docs.LOGS_DIR, "test_image.jpg")
 print(file_names)
 print(random_image)
 
-image = skimage.io.imread(random_image)
+image = gray2rgb(skimage.io.imread(random_image))
+
 results = model.detect([image], verbose=1)
 r = results[0]
 visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'],
