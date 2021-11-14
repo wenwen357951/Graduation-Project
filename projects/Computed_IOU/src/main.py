@@ -1,6 +1,5 @@
 import json
 import os
-import random
 import sys
 
 import numpy as np
@@ -25,37 +24,38 @@ def inference():
     model = model_lib.MaskRCNN(mode="inference", model_dir=docs.LOGS_DIR, config=config)
     model.load_weights(MODEL_WEIGHT_PATH, by_name=True)
 
-    image_id = random.choice(dataset.image_ids)
-    image, image_meta, gt_class_id, gt_bbox, gt_mask = model_lib.load_image_gt(dataset, config, image_id)
-    info = dataset.image_info[image_id]
-    print("image ID: {}.{} ({}) {}".format(info["source"], info["id"], image_id,
-                                           dataset.image_reference(image_id)))
-    r = model.detect([image], verbose=1)[0]
+    for ids in dataset.image_ids:
+        image, image_meta, gt_class_id, gt_bbox, gt_mask = model_lib.load_image_gt(dataset, config, ids)
+        info = dataset.image_info[ids]
+        print("image ID: {}.{} ({}) {}".format(info["source"], info["id"], ids,
+                                               dataset.image_reference(ids)))
 
-    print(gt_bbox.shape)
-    print(gt_class_id.shape)
-    print(gt_mask.shape)
-    print("- - - - -")
-    print(r['rois'].shape)
-    print(r['class_ids'].shape)
-    print(r['scores'].shape)
-    print(r['masks'].shape)
+        r = model.detect([image], verbose=1)[0]
 
-    gt_match, pred_match, overlaps = \
-        utils.compute_matches(
+        print(gt_bbox.shape)
+        print(gt_class_id.shape)
+        print(gt_mask.shape)
+        print("- - - - -")
+        print(r['rois'].shape)
+        print(r['class_ids'].shape)
+        print(r['scores'].shape)
+        print(r['masks'].shape)
+
+        gt_match, pred_match, overlaps = \
+            utils.compute_matches(
+                gt_bbox, gt_class_id, gt_mask,
+                r['rois'], r['class_ids'], r['scores'], r['masks'])
+
+        print(gt_match)
+        print(pred_match)
+        print(overlaps)
+
+        visualize.display_differences(
+            image,
             gt_bbox, gt_class_id, gt_mask,
-            r['rois'], r['class_ids'], r['scores'], r['masks'])
-
-    print(gt_match)
-    print(pred_match)
-    print(overlaps)
-
-    visualize.display_differences(
-        image,
-        gt_bbox, gt_class_id, gt_mask,
-        r['rois'], r['class_ids'], r['scores'], r['masks'],
-        CLASSES
-    )
+            r['rois'], r['class_ids'], r['scores'], r['masks'],
+            CLASSES
+        )
 
     #
     # visualize.display_differences(image,
