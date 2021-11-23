@@ -1,9 +1,8 @@
+import glob2
 import json
 import os
 import shutil
 import sys
-
-import glob2
 
 sys.path.append("../../../modules")
 from modules.trclab import config
@@ -59,7 +58,7 @@ LABEL_PATH_DICT = {
 
 def readimagename():
     for idx, path in enumerate(DATASET_PATH):
-        DATASET_IMAGE_DIR_PATH[idx] = glob2.glob(os.path.join(path, "*.jpg"), recursive=True)
+        DATASET_IMAGE_DIR_PATH[idx] = glob2.glob(os.path.join(path, "*.png"), recursive=True)
 
     for arrayidx, DataSetDirMaps in enumerate(DATASET_IMAGE_MAPS):
         dirname = ""
@@ -108,9 +107,9 @@ def make_Json():
 
 
 def main():
-    # readimagename()
-    # copyImage()
-    make_Json()
+    readimagename()
+    copyImage()
+    # make_Json()
 
 
 if __name__ == '__main__':

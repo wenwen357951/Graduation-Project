@@ -8,18 +8,17 @@ Written by Waleed Abdulla
 """
 
 import logging
-import random
-import shutil
-import urllib.request
-import warnings
-from distutils.version import LooseVersion
-
 import numpy as np
+import random
 import scipy
+import shutil
 import skimage.color
 import skimage.io
 import skimage.transform
 import tensorflow as tf
+import urllib.request
+import warnings
+from distutils.version import LooseVersion
 
 # URL from which to download the latest COCO trained weights
 COCO_MODEL_URL = "https://github.com/matterport/Mask_RCNN/releases/download/v2.0/mask_rcnn_coco.h5"

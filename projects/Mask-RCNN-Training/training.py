@@ -1,10 +1,9 @@
 import datetime
 import json
-import os
-import sys
-
 import numpy as np
+import os
 import skimage.draw
+import sys
 
 # Root directory of the project
 ROOT_DIR = os.path.abspath("./")

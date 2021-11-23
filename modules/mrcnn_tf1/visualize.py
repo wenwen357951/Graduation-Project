@@ -7,15 +7,14 @@ Licensed under the MIT License (see LICENSE for details)
 Written by Waleed Abdulla
 """
 
+import IPython.display
 import colorsys
 import itertools
+import matplotlib.pyplot as plt
+import numpy as np
 import os
 import random
 import sys
-
-import IPython.display
-import matplotlib.pyplot as plt
-import numpy as np
 from matplotlib import patches, lines
 from matplotlib.patches import Polygon
 from skimage.measure import find_contours

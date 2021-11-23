@@ -1,9 +1,8 @@
 import json
-import os
-from multiprocessing import Pool
-
 import numpy
+import os
 from glob2 import glob
+from multiprocessing import Pool
 
 from ..utils.ProgressBar import ProgressBar
 from ..vhp.OrganImage import OrganImage

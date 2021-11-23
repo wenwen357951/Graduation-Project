@@ -27,12 +27,15 @@ Usage: import the module (see Jupyter notebooks for examples), or run from
     python3 coco.py evaluate --dataset=/docs/to/coco/ --model=last
 """
 
+import imgaug  # https://github.com/aleju/imgaug (pip3 install imgaug)
+import numpy as np
 import os
+import shutil
 import sys
 import time
-import numpy as np
-import imgaug  # https://github.com/aleju/imgaug (pip3 install imgaug)
-
+import urllib.request
+import zipfile
+from pycocotools import mask as maskUtils
 # Download and install the Python COCO tools from https://github.com/waleedka/coco
 # That's a fork from the original https://github.com/pdollar/coco with a bug
 # fix for Python 3.
@@ -41,11 +44,6 @@ import imgaug  # https://github.com/aleju/imgaug (pip3 install imgaug)
 # Note: Edit PythonAPI/Makefile and replace "python" with "python3".
 from pycocotools.coco import COCO
 from pycocotools.cocoeval import COCOeval
-from pycocotools import mask as maskUtils
-
-import zipfile
-import urllib.request
-import shutil
 
 # Root directory of the project
 ROOT_DIR = os.path.abspath("../../")

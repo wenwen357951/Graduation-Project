@@ -10,19 +10,18 @@ Written by Waleed Abdulla
 import datetime
 import math
 import multiprocessing
+import numpy as np
 import os
 import re
-from collections import OrderedDict
-# Requires TensorFlow 2.0+
-from distutils.version import LooseVersion
-
-import numpy as np
 import tensorflow as tf
 import tensorflow.keras as keras
 import tensorflow.keras.backend as K
 import tensorflow.keras.layers as KL
 import tensorflow.keras.models as KM
 import tensorflow.keras.utils as KU
+from collections import OrderedDict
+# Requires TensorFlow 2.0+
+from distutils.version import LooseVersion
 from mrcnn import utils
 from tensorflow.python.eager import context
 
@@ -97,8 +96,8 @@ def identity_block(input_tensor, kernel_size, filters, stage, block,
     """The identity_block is the block that has no conv layer at shortcut
     # Arguments
         input_tensor: input tensor
-        kernel_size: default 3, the kernel size of middle conv layer at main docs
-        filters: list of integers, the nb_filters of 3 conv layer at main docs
+        kernel_size: default 3, the kernel size of middle conv layer at main path
+        filters: list of integers, the nb_filters of 3 conv layer at main path
         stage: integer, current stage label, used for generating layer names
         block: 'a','b'..., current block label, used for generating layer names
         use_bias: Boolean. To use or not use a bias in conv layers.
@@ -132,13 +131,13 @@ def conv_block(input_tensor, kernel_size, filters, stage, block,
     """conv_block is the block that has a conv layer at shortcut
     # Arguments
         input_tensor: input tensor
-        kernel_size: default 3, the kernel size of middle conv layer at main docs
-        filters: list of integers, the nb_filters of 3 conv layer at main docs
+        kernel_size: default 3, the kernel size of middle conv layer at main path
+        filters: list of integers, the nb_filters of 3 conv layer at main path
         stage: integer, current stage label, used for generating layer names
         block: 'a','b'..., current block label, used for generating layer names
         use_bias: Boolean. To use or not use a bias in conv layers.
         train_bn: Boolean. Train or freeze Batch Norm layers
-    Note that from stage 3, the first conv layer at main docs is with subsample=(2,2)
+    Note that from stage 3, the first conv layer at main path is with subsample=(2,2)
     And the shortcut should have subsample=(2,2) as well
     """
     nb_filter1, nb_filter2, nb_filter3 = filters
@@ -740,7 +739,7 @@ def refine_detections_graph(rois, probs, deltas, window, config):
     if config.DETECTION_MIN_CONFIDENCE:
         conf_keep = tf.compat.v1.where(class_scores >= config.DETECTION_MIN_CONFIDENCE)[:, 0]
         keep = tf.sets.intersection(tf.expand_dims(keep, 0),
-                                    tf.expand_dims(conf_keep, 0))
+                                        tf.expand_dims(conf_keep, 0))
         keep = tf.sparse.to_dense(keep)[0]
 
     # Apply per-class NMS
@@ -756,10 +755,10 @@ def refine_detections_graph(rois, probs, deltas, window, config):
         ixs = tf.compat.v1.where(tf.equal(pre_nms_class_ids, class_id))[:, 0]
         # Apply NMS
         class_keep = tf.image.non_max_suppression(
-            tf.gather(pre_nms_rois, ixs),
-            tf.gather(pre_nms_scores, ixs),
-            max_output_size=config.DETECTION_MAX_INSTANCES,
-            iou_threshold=config.DETECTION_NMS_THRESHOLD)
+                tf.gather(pre_nms_rois, ixs),
+                tf.gather(pre_nms_scores, ixs),
+                max_output_size=config.DETECTION_MAX_INSTANCES,
+                iou_threshold=config.DETECTION_NMS_THRESHOLD)
         # Map indices
         class_keep = tf.gather(keep, tf.gather(ixs, class_keep))
         # Pad with -1 so returned tensors have the same shape
@@ -778,7 +777,7 @@ def refine_detections_graph(rois, probs, deltas, window, config):
     nms_keep = tf.gather(nms_keep, tf.compat.v1.where(nms_keep > -1)[:, 0])
     # 4. Compute intersection between keep and nms_keep
     keep = tf.sets.intersection(tf.expand_dims(keep, 0),
-                                tf.expand_dims(nms_keep, 0))
+                                    tf.expand_dims(nms_keep, 0))
     keep = tf.sparse.to_dense(keep)[0]
     # Keep top detections
     roi_count = config.DETECTION_MAX_INSTANCES
@@ -793,7 +792,7 @@ def refine_detections_graph(rois, probs, deltas, window, config):
         tf.gather(refined_rois, keep),
         tf.dtypes.cast(tf.gather(class_ids, keep), tf.float32)[..., tf.newaxis],
         tf.gather(class_scores, keep)[..., tf.newaxis]
-    ], axis=1)
+        ], axis=1)
 
     # Pad with zeros if detections < DETECTION_MAX_INSTANCES
     gap = config.DETECTION_MAX_INSTANCES - tf.shape(input=detections)[0]
@@ -1270,7 +1269,7 @@ def load_image_gt(dataset, config, image_id, augmentation=None):
         assert image.shape == image_shape, "Augmentation shouldn't change image size"
         assert mask.shape == mask_shape, "Augmentation shouldn't change mask size"
         # Change mask back to bool
-        mask = mask.astype(np.bool_)
+        mask = mask.astype(np.bool)
 
     # Note that some boxes might be all zeros if the corresponding mask got cropped out.
     # and here is to filter them out
@@ -2073,7 +2072,7 @@ class MaskRCNN(object):
         """Finds the last checkpoint file of the last trained model in the
         model directory.
         Returns:
-            The docs of the last checkpoint file
+            The path of the last checkpoint file
         """
         # Get directory names. Each directory corresponds to a model
         dir_names = next(os.walk(self.model_dir))[1]
@@ -2119,7 +2118,7 @@ class MaskRCNN(object):
             # In multi-GPU training, we wrap the model. Get layers
             # of the inner model because they have the weights.
             keras_model = self.keras_model
-            layers = keras_model.inner_model.layers if hasattr(keras_model, "inner_model") \
+            layers = keras_model.inner_model.layers if hasattr(keras_model, "inner_model")\
                 else keras_model.layers
 
             # Exclude some layers
@@ -2136,12 +2135,11 @@ class MaskRCNN(object):
 
     def get_imagenet_weights(self):
         """Downloads ImageNet trained weights from Keras.
-        Returns docs to weights file.
+        Returns path to weights file.
         """
         from keras.utils.data_utils import get_file
-
-        TF_WEIGHTS_PATH_NO_TOP = 'https://github.com/fchollet/deep-learning-models/' \
-                                 'releases/download/v0.2/' \
+        TF_WEIGHTS_PATH_NO_TOP = 'https://github.com/fchollet/deep-learning-models/'\
+                                 'releases/download/v0.2/'\
                                  'resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5'
         weights_path = get_file('resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5',
                                 TF_WEIGHTS_PATH_NO_TOP,
@@ -2155,7 +2153,7 @@ class MaskRCNN(object):
         """
         # Optimizer object
         optimizer = keras.optimizers.SGD(
-            learning_rate=learning_rate, momentum=momentum,
+            lr=learning_rate, momentum=momentum,
             clipnorm=self.config.GRADIENT_CLIP_NORM)
         # Add Losses
         loss_names = [
@@ -2166,8 +2164,8 @@ class MaskRCNN(object):
             if layer.output in self.keras_model.losses:
                 continue
             loss = (
-                    tf.reduce_mean(input_tensor=layer.output, keepdims=True)
-                    * self.config.LOSS_WEIGHTS.get(name, 1.))
+                tf.reduce_mean(input_tensor=layer.output, keepdims=True)
+                * self.config.LOSS_WEIGHTS.get(name, 1.))
             self.keras_model.add_loss(loss)
 
         # Add L2 Regularization
@@ -2190,8 +2188,8 @@ class MaskRCNN(object):
             layer = self.keras_model.get_layer(name)
             self.keras_model.metrics_names.append(name)
             loss = (
-                    tf.reduce_mean(input_tensor=layer.output, keepdims=True)
-                    * self.config.LOSS_WEIGHTS.get(name, 1.))
+                tf.reduce_mean(input_tensor=layer.output, keepdims=True)
+                * self.config.LOSS_WEIGHTS.get(name, 1.))
             self.keras_model.add_metric(loss, name=name, aggregation='mean')
 
     def set_trainable(self, layer_regex, keras_model=None, indent=0, verbose=1):
@@ -2243,12 +2241,12 @@ class MaskRCNN(object):
         self.epoch = 0
         now = datetime.datetime.now()
 
-        # If we have a model docs with date and epochs use them
+        # If we have a model path with date and epochs use them
         if model_path:
             # Continue from we left of. Get epoch and date from the file name
-            # A sample model docs might look like:
-            # \docs\to\logs\coco20171029T2315\mask_rcnn_coco_0001.h5 (Windows)
-            # /docs/to/logs/coco20171029T2315/mask_rcnn_coco_0001.h5 (Linux)
+            # A sample model path might look like:
+            # \path\to\logs\coco20171029T2315\mask_rcnn_coco_0001.h5 (Windows)
+            # /path/to/logs/coco20171029T2315/mask_rcnn_coco_0001.h5 (Linux)
             regex = r".*[/\\][\w-]+(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})[/\\]mask\_rcnn\_[\w-]+(\d{4})\.h5"
             # Use string for regex since we might want to use pathlib.Path as model_path
             m = re.match(regex, str(model_path))
@@ -2322,7 +2320,7 @@ class MaskRCNN(object):
 
         # Data generators
         train_generator = DataGenerator(train_dataset, self.config, shuffle=True,
-                                        augmentation=augmentation)
+                                         augmentation=augmentation)
         val_generator = DataGenerator(val_dataset, self.config, shuffle=True)
 
         # Create log_dir if it does not exist

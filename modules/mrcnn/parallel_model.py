@@ -17,7 +17,6 @@ import tensorflow as tf
 import tensorflow.keras.backend as K
 import tensorflow.keras.layers as KL
 import tensorflow.keras.models as KM
-from tensorflow import keras
 
 
 class ParallelModel(KM.Model):
@@ -33,7 +32,6 @@ class ParallelModel(KM.Model):
         keras_model: The Keras model to parallelize
         gpu_count: Number of GPUs. Must be > 1
         """
-        super(ParallelModel, self).__init__()
         self.inner_model = keras_model
         self.gpu_count = gpu_count
         merged_outputs = self.make_parallel()
@@ -115,6 +113,7 @@ if __name__ == "__main__":
 
     import os
     import numpy as np
+    import tensorflow.keras.optimizers
     from tensorflow.keras.datasets import mnist
     from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
