@@ -35,12 +35,12 @@ if __name__ == '__main__':
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
 
-import os
-import sys
-import json
 import datetime
+import json
 import numpy as np
+import os
 import skimage.io
+import sys
 from imgaug import augmenters as iaa
 
 # Root directory of the project

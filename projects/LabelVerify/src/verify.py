@@ -1,8 +1,7 @@
+import glob2
 import json
 import os
 import sys
-
-import glob2
 
 # Import doc.config
 sys.path.append("../../../modules")
