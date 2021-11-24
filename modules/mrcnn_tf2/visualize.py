@@ -13,7 +13,6 @@ import itertools
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-import random
 import sys
 from matplotlib import patches, lines
 from matplotlib.patches import Polygon
@@ -25,6 +24,8 @@ ROOT_DIR = os.path.abspath("../")
 # Import Mask RCNN
 sys.path.append(ROOT_DIR)  # To find local version of the library
 from mrcnn import utils
+from ..trclab import config as docs
+import random
 
 
 ############################################################
@@ -105,6 +106,7 @@ def display_instances(image, boxes, masks, class_ids, class_names,
 
     # If no axis is passed, create one and automatically call show()
     auto_show = False
+
     if not ax:
         _, ax = plt.subplots(1, figsize=figsize)
         auto_show = True
@@ -130,8 +132,8 @@ def display_instances(image, boxes, masks, class_ids, class_names,
         y1, x1, y2, x2 = boxes[i]
         if show_bbox:
             p = patches.Rectangle((x1, y1), x2 - x1, y2 - y1, linewidth=2,
-                                alpha=0.7, linestyle="dashed",
-                                edgecolor=color, facecolor='none')
+                                  alpha=0.7, linestyle="dashed",
+                                  edgecolor=color, facecolor='none')
             ax.add_patch(p)
 
         # Label
@@ -161,9 +163,15 @@ def display_instances(image, boxes, masks, class_ids, class_names,
             verts = np.fliplr(verts) - 1
             p = Polygon(verts, facecolor="none", edgecolor=color)
             ax.add_patch(p)
+
+    # result_img = masked_image.astype(np.uint8)
     ax.imshow(masked_image.astype(np.uint8))
-    if auto_show:
-        plt.show()
+    plt.savefig(os.path.join(docs.LOGS_DIR, "iou", "output_image-{}.jpg".format(random.randrange(0, 798, 1))))
+    # plt.imsave(os.path.join(docs.LOGS_DIR, "iou", "output_image-{}.jpg".format(random.randrange(0, 798, 1))),
+    #            result_img)
+    # if auto_show:
+    #     plt.show()
+    #
 
 
 def display_differences(image,
@@ -179,19 +187,23 @@ def display_differences(image,
         pred_box, pred_class_id, pred_score, pred_mask,
         iou_threshold=iou_threshold, score_threshold=score_threshold)
     # Ground truth = green. Predictions = red
-    colors = [(0, 1, 0, .8)] * len(gt_match)\
-           + [(1, 0, 0, 1)] * len(pred_match)
+    colors = [(0, 1, 0, .8)] * len(gt_match) \
+             + [(1, 0, 0, 1)] * len(pred_match)
     # Concatenate GT and predictions
     class_ids = np.concatenate([gt_class_id, pred_class_id])
     scores = np.concatenate([np.zeros([len(gt_match)]), pred_score])
     boxes = np.concatenate([gt_box, pred_box])
     masks = np.concatenate([gt_mask, pred_mask], axis=-1)
     # Captions per instance show score/IoU
-    captions = ["" for m in gt_match] + ["{:.2f} / {:.2f}".format(
+
+    captions = ["" for m in gt_match] + ["gt_pred_class:{}/{}\nIoU: {:.2f}".format(
+        # gt_class_id[int(pred_match[i])] if int(pred_match[i]) > -1 else i,
+        class_names[gt_class_id[int(pred_match[i])]],
+        class_names[pred_class_id[i]],
         pred_score[i],
-        (overlaps[i, int(pred_match[i])]
-            if pred_match[i] > -1 else overlaps[i].max()))
-            for i in range(len(pred_match))]
+        (overlaps[i, int(pred_match[i])] if pred_match[i] > -1 else overlaps[i].max())
+    ).replace("**", "{}") for i in range(len(pred_match))]
+
     # Set title if not provided
     title = title or "Ground Truth and Detections\n GT=green, pred=red, captions: score/IoU"
     # Display
@@ -253,7 +265,7 @@ def draw_rois(image, rois, refined_rois, mask, class_ids, class_names, limit=10)
 
             # Mask
             m = utils.unmold_mask(mask[id], rois[id]
-                                  [:4].astype(np.int32), image.shape)
+            [:4].astype(np.int32), image.shape)
             masked_image = apply_mask(masked_image, m, color)
 
     ax.imshow(masked_image)
@@ -345,7 +357,7 @@ def plot_overlaps(gt_class_ids, pred_class_ids, pred_scores,
             text = "match" if gt_class_ids[j] == pred_class_ids[i] else "wrong"
         color = ("white" if overlaps[i, j] > thresh
                  else "black" if overlaps[i, j] > 0
-                 else "grey")
+        else "grey")
         plt.text(j, i, "{:.3f}\n{}".format(overlaps[i, j], text),
                  horizontalalignment="center", verticalalignment="center",
                  fontsize=9, color=color)

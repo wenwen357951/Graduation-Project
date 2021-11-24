@@ -9,12 +9,12 @@ Licensed under the MIT License (see LICENSE for details)
 Written by Waleed Abdulla
 """
 
-import os
-import sys
-import math
-import random
-import numpy as np
 import cv2
+import math
+import numpy as np
+import os
+import random
+import sys
 
 # Root directory of the project
 ROOT_DIR = os.path.abspath("../../")

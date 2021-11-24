@@ -13,26 +13,31 @@ LABEL_DICT = {
         "0": {
             "label_filepath": config.LABEL_MRCNN,
             "dataset_path": config.DATASET_ALIGNMENT_CT_RESIZE,
+            "segment_path": config.DATASET_VHP_SEG,
             "template_name": "normal_{}.{}"
         },
         "l5": {
             "label_filepath": config.LABEL_MRCNN_L5,
             "dataset_path": config.DATASET_DA_CT_L_5o,
+            "segment_path": config.DATASET_DA_SEG_L_5o,
             "template_name": "normal_l5_{}.{}"
         },
         "l10": {
             "label_filepath": config.LABEL_MRCNN_L10,
             "dataset_path": config.DATASET_DA_CT_L_10o,
+            "segment_path": config.DATASET_DA_SEG_L_10o,
             "template_name": "normal_l10_{}.{}"
         },
         "r5": {
             "label_filepath": config.LABEL_MRCNN_R5,
             "dataset_path": config.DATASET_DA_CT_R_5o,
+            "segment_path": config.DATASET_DA_SEG_R_5o,
             "template_name": "normal_r5_{}.{}"
         },
         "r10": {
             "label_filepath": config.LABEL_MRCNN_R10,
             "dataset_path": config.DATASET_DA_CT_R_10o,
+            "segment_path": config.DATASET_DA_SEG_R_10o,
             "template_name": "normal_r10_{}.{}"
         },
     },
@@ -40,26 +45,31 @@ LABEL_DICT = {
         "0": {
             "label_filepath": config.LABEL_MRCNN_M,
             "dataset_path": config.DATASET_DA_M_CT_RS,
+            "segment_path": config.DATASET_DA_M_SEG,
             "template_name": "mirror_{}.{}"
         },
         "l5": {
             "label_filepath": config.LABEL_MRCNN_M_L5,
             "dataset_path": config.DATASET_DA_M_CT_L_5o,
+            "segment_path": config.DATASET_DA_M_SEG_L_5o,
             "template_name": "mirror_l5_{}.{}"
         },
         "l10": {
             "label_filepath": config.LABEL_MRCNN_M_L10,
             "dataset_path": config.DATASET_DA_M_CT_L_10o,
+            "segment_path": config.DATASET_DA_M_SEG_L_10o,
             "template_name": "mirror_l10_{}.{}"
         },
         "r5": {
             "label_filepath": config.LABEL_MRCNN_M_R5,
             "dataset_path": config.DATASET_DA_M_CT_R_5o,
+            "segment_path": config.DATASET_DA_M_SEG_R_5o,
             "template_name": "mirror_r5_{}.{}"
         },
         "r10": {
             "label_filepath": config.LABEL_MRCNN_M_R10,
             "dataset_path": config.DATASET_DA_M_CT_R_10o,
+            "segment_path": config.DATASET_DA_M_SEG_R_10o,
             "template_name": "mirror_r10_{}.{}"
         }
     }
