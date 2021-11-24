@@ -1,5 +1,6 @@
-import settings
 import argparse
+
+import settings
 
 parser = argparse.ArgumentParser(
     description="訓練 Mask R-CNN 來偵測辨識腹腔器官",

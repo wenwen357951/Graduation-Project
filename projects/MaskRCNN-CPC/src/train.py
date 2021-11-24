@@ -1,8 +1,9 @@
 import os
-from datetime import datetime
-from argparser import args
-import settings
 import sys
+from datetime import datetime
+
+import settings
+from argparser import args
 
 #######################
 #   匯入 Mask R-CNN  #
