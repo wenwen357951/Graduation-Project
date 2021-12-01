@@ -57,11 +57,13 @@ LABEL_PATH_DICT = {
 
 
 def readimagename():
+    # enum dataset path it has index and value(path) to find every image path in dataset
     for idx, path in enumerate(DATASET_PATH):
         DATASET_IMAGE_DIR_PATH[idx] = glob2.glob(os.path.join(path, "*.png"), recursive=True)
-
+    # enum dataset image maps refer to dataset path it has array index and dataset dirmaps
     for arrayidx, DataSetDirMaps in enumerate(DATASET_IMAGE_MAPS):
         dirname = ""
+        #
         for idx in DataSetDirMaps:
             dirname += chr(ord('A') + idx)
 

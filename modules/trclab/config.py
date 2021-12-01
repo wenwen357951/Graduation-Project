@@ -74,7 +74,8 @@ PROJECTS_LG_DIR = os.path.join(PROJECTS_DIR, "LabelGenerate")
 
 # Logs
 LOGS_DIR = os.path.join(ROOT_DIR, "logs")
-WEIGHTS_LOGS = os.path.join(LOGS_DIR,"Weights")
+LOGS_WEIGHTS_DIR = os.path.join(LOGS_DIR, "Weights")
+
 # Resources
 RESOURCES_DIR = os.path.join(ROOT_DIR, "resources")
 LABEL_MRCNN_DIR = os.path.join(RESOURCES_DIR, "VHP_MRCNN_LABEL")

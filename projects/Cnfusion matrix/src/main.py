@@ -1,4 +1,6 @@
 import json
+
+import numpy
 import numpy as np
 import os
 import pandas as pd
@@ -16,7 +18,7 @@ from modules.trclab import config as docs
 
 
 # noinspection DuplicatedCode
-def inference(show_image=False, verbose=0, generator=True):
+def inference(show_image=True, verbose=0, generator=True):
     config = InferenceConfigConfig()
     dataset = PeritonealDataset()
     dataset.load_peritoneal(docs.DATASET_KFOLD_C, "val")
@@ -45,6 +47,9 @@ def inference(show_image=False, verbose=0, generator=True):
             pred_class_ids = r["class_ids"]
             pred_scores = r["scores"]
             pred_masks = r["masks"]
+
+
+
 
             if show_image:
                 visualize.display_instances(
@@ -138,10 +143,10 @@ def inference(show_image=False, verbose=0, generator=True):
 # noinspection DuplicatedCode
 if __name__ == '__main__':
     PRETRAINING_WEIGHT_TYPE = "coco"
-    WEIGHTS_DIR = "peritoneal_a_coco20211104T2156"
+    LOGS_WEIGHTS_DIR = "peritoneal_e_coco20211105T1435"
     MODEL_WEIGHT_PATH = os.path.join(
-        docs.WEIGHTS_LOGS, PRETRAINING_WEIGHT_TYPE, WEIGHTS_DIR,
-        "mask_rcnn_peritoneal_a_{}_0100.h5".format(PRETRAINING_WEIGHT_TYPE))
+        docs.LOGS_WEIGHTS_DIR, PRETRAINING_WEIGHT_TYPE, LOGS_WEIGHTS_DIR,
+        "mask_rcnn_peritoneal_e_{}_0100.h5".format(PRETRAINING_WEIGHT_TYPE))
     if not os.path.exists(MODEL_WEIGHT_PATH):
         raise FileNotFoundError("Did not find this weight " + MODEL_WEIGHT_PATH)
 
