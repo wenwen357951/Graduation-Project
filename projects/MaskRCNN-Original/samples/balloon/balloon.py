@@ -24,7 +24,7 @@ COCO_WEIGHTS_PATH = os.path.join("mask_rcnn_coco.h5")
 # through the command line argument --logs
 DEFAULT_LOGS_DIR = docs.LOGS_DIR
 
-TRAINING_NAME = "Peritoneal_A_COCO"
+TRAINING_NAME = "Peritoneal_c_coco"
 EPOCHS = 100
 STEPS_PER_EPOCHS = 1000
 CLASSES = [line.strip() for line in
@@ -51,7 +51,7 @@ class TrainConfig(Config):
     # We use a GPU with 12GB memory, which can fit two images.
     # Adjust down if you use a smaller GPU.
     IMAGES_PER_GPU = 4
-
+    
     GPU_COUNT = 1
 
     # Number of classes (including background)
