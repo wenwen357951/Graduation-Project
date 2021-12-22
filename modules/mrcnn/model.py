@@ -23,9 +23,7 @@ import tensorflow.keras.backend as K
 import tensorflow.keras.layers as KL
 import tensorflow.keras.models as KM
 import tensorflow.keras.utils as KU
-import sys
-sys.path.append("../../")
-from modules.mrcnn import utils
+from mrcnn import utils
 from tensorflow.python.eager import context
 
 assert LooseVersion(tf.__version__) >= LooseVersion("2.0")
@@ -2066,7 +2064,7 @@ class MaskRCNN(object):
 
         # Add multi-GPU support.
         if config.GPU_COUNT > 1:
-            from modules.mrcnn.parallel_model import ParallelModel
+            from mrcnn.parallel_model import ParallelModel
             model = ParallelModel(model, config.GPU_COUNT)
 
         return model
@@ -2366,8 +2364,8 @@ class MaskRCNN(object):
             validation_data=val_generator,
             validation_steps=self.config.VALIDATION_STEPS,
             max_queue_size=100,
-            workers=1,
-            use_multiprocessing=False,
+            workers=workers,
+            use_multiprocessing=workers > 1,
         )
         self.epoch = max(self.epoch, epochs)
 
