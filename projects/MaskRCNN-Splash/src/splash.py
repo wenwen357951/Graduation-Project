@@ -55,10 +55,10 @@ if __name__ == '__main__':
     print("日誌資料夾:", args.logs)
 
     #######################
-    #   訓練模型配置       #
+    #   推理模型配置       #
     ####################
     print("載入訓練模型配置: ")
-    print("  - 訓練配置 (Training)")
+    print("  - 推理配置 (Inference)")
     CONFIG = settings.InferenceConfig()
     CONFIG.NAME = args.name
     # # 顯示配置檔案
@@ -66,7 +66,7 @@ if __name__ == '__main__':
     CONFIG.display()
 
     #######################
-    #   創建訓練模型       #
+    #   創建推理模型       #
     ####################
     MODEL = model_lib.MaskRCNN(
         mode="inference",

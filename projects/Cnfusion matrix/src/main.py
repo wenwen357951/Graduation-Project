@@ -48,9 +48,6 @@ def inference(show_image=True, verbose=0, generator=True):
             pred_scores = r["scores"]
             pred_masks = r["masks"]
 
-
-
-
             if show_image:
                 visualize.display_instances(
                     image=image,

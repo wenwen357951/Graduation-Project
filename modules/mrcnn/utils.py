@@ -1016,7 +1016,7 @@ def gt_pred_lists(gt_class_ids, gt_bboxes, pred_class_ids, pred_bboxes, iou_tres
                 # pred.append(pred_class)
 
                 # chack if the overlapping objects are from the same class
-                if (gt_class == pred_class):
+                if gt_class == pred_class:
                     gt.append(gt_class)
                     pred.append(pred_class)
                 # if the overlapping objects are not from the same class

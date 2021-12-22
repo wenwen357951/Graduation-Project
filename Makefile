@@ -27,16 +27,19 @@ else
 endif
 
 training: ## MaskRCNN Training
+	# Parameter Example:
 	# --name=Peritoneal_A_coco
 	# --dataset=/GraduationProject/resources/k-fold/B
 	# --weights=coco
 	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_TRAINING) && python training.py $(argv)'
 
 splash: ## MaskRCNN Splash
+	# Parameter Example:
 	# -name=COCO_A_TEST_B
 	# --images=/GraduationProject/resources/k-fold/B/val
 	# --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5
 	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py $(argv)'
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_A_TEST_B --images=/GraduationProject/resources/k-fold/B/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
 #	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_A_TEST_C --images=/GraduationProject/resources/k-fold/C/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
 #	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_A_TEST_D --images=/GraduationProject/resources/k-fold/D/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
 #	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_A_TEST_E --images=/GraduationProject/resources/k-fold/E/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
@@ -61,7 +64,61 @@ splash: ## MaskRCNN Splash
 #	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_E_TEST_C --images=/GraduationProject/resources/k-fold/C/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_e_coco20211220T0810-retrain/mask_rcnn_peritoneal_e_coco_0100.h5'
 #	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_E_TEST_D --images=/GraduationProject/resources/k-fold/D/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_e_coco20211220T0810-retrain/mask_rcnn_peritoneal_e_coco_0100.h5'
 
+iou: ## Computed MaskRCNN Detect IOU
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_A_TEST_B --dataset=/GraduationProject/resources/k-fold/B --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_A_TEST_C --dataset=/GraduationProject/resources/k-fold/C --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_A_TEST_D --dataset=/GraduationProject/resources/k-fold/D --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_A_TEST_E --dataset=/GraduationProject/resources/k-fold/E --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
+
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_B_TEST_A --dataset=/GraduationProject/resources/k-fold/A --weights=/GraduationProject/logs/Weights/coco/peritoneal_b_coco20211217T0432-retrain/mask_rcnn_peritoneal_b_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_B_TEST_C --dataset=/GraduationProject/resources/k-fold/C --weights=/GraduationProject/logs/Weights/coco/peritoneal_b_coco20211217T0432-retrain/mask_rcnn_peritoneal_b_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_B_TEST_D --dataset=/GraduationProject/resources/k-fold/D --weights=/GraduationProject/logs/Weights/coco/peritoneal_b_coco20211217T0432-retrain/mask_rcnn_peritoneal_b_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_B_TEST_E --dataset=/GraduationProject/resources/k-fold/E --weights=/GraduationProject/logs/Weights/coco/peritoneal_b_coco20211217T0432-retrain/mask_rcnn_peritoneal_b_coco_0100.h5'
+
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_C_TEST_A --dataset=/GraduationProject/resources/k-fold/A --weights=/GraduationProject/logs/Weights/coco/peritoneal_c_coco20211115T1430/mask_rcnn_peritoneal_c_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_C_TEST_B --dataset=/GraduationProject/resources/k-fold/B --weights=/GraduationProject/logs/Weights/coco/peritoneal_c_coco20211115T1430/mask_rcnn_peritoneal_c_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_C_TEST_D --dataset=/GraduationProject/resources/k-fold/D --weights=/GraduationProject/logs/Weights/coco/peritoneal_c_coco20211115T1430/mask_rcnn_peritoneal_c_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_C_TEST_E --dataset=/GraduationProject/resources/k-fold/E --weights=/GraduationProject/logs/Weights/coco/peritoneal_c_coco20211115T1430/mask_rcnn_peritoneal_c_coco_0100.h5'
+
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_D_TEST_A --dataset=/GraduationProject/resources/k-fold/A --weights=/GraduationProject/logs/Weights/coco/peritoneal_d_coco20211105T1545/mask_rcnn_peritoneal_d_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_D_TEST_B --dataset=/GraduationProject/resources/k-fold/B --weights=/GraduationProject/logs/Weights/coco/peritoneal_d_coco20211105T1545/mask_rcnn_peritoneal_d_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_D_TEST_C --dataset=/GraduationProject/resources/k-fold/C --weights=/GraduationProject/logs/Weights/coco/peritoneal_d_coco20211105T1545/mask_rcnn_peritoneal_d_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_D_TEST_E --dataset=/GraduationProject/resources/k-fold/E --weights=/GraduationProject/logs/Weights/coco/peritoneal_d_coco20211105T1545/mask_rcnn_peritoneal_d_coco_0100.h5'
+
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_E_TEST_A --dataset=/GraduationProject/resources/k-fold/A --weights=/GraduationProject/logs/Weights/coco/peritoneal_e_coco20211220T0810-retrain/mask_rcnn_peritoneal_e_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_E_TEST_B --dataset=/GraduationProject/resources/k-fold/B --weights=/GraduationProject/logs/Weights/coco/peritoneal_e_coco20211220T0810-retrain/mask_rcnn_peritoneal_e_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_E_TEST_C --dataset=/GraduationProject/resources/k-fold/C --weights=/GraduationProject/logs/Weights/coco/peritoneal_e_coco20211220T0810-retrain/mask_rcnn_peritoneal_e_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=COCO_E_TEST_D --dataset=/GraduationProject/resources/k-fold/D --weights=/GraduationProject/logs/Weights/coco/peritoneal_e_coco20211220T0810-retrain/mask_rcnn_peritoneal_e_coco_0100.h5'
+
+	# IMAGENET
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_A_TEST_B --dataset=/GraduationProject/resources/k-fold/B --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_a_imagenet20211108T1624/mask_rcnn_peritoneal_a_imagenet_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_A_TEST_C --dataset=/GraduationProject/resources/k-fold/C --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_a_imagenet20211108T1624/mask_rcnn_peritoneal_a_imagenet_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_A_TEST_D --dataset=/GraduationProject/resources/k-fold/D --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_a_imagenet20211108T1624/mask_rcnn_peritoneal_a_imagenet_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_A_TEST_E --dataset=/GraduationProject/resources/k-fold/E --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_a_imagenet20211108T1624/mask_rcnn_peritoneal_a_imagenet_0100.h5'
+
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_B_TEST_A --dataset=/GraduationProject/resources/k-fold/A --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_b_imagenet20211111T2022/mask_rcnn_peritoneal_b_imagenet_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_B_TEST_C --dataset=/GraduationProject/resources/k-fold/C --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_b_imagenet20211111T2022/mask_rcnn_peritoneal_b_imagenet_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_B_TEST_D --dataset=/GraduationProject/resources/k-fold/D --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_b_imagenet20211111T2022/mask_rcnn_peritoneal_b_imagenet_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_B_TEST_E --dataset=/GraduationProject/resources/k-fold/E --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_b_imagenet20211111T2022/mask_rcnn_peritoneal_b_imagenet_0100.h5'
+
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_C_TEST_A --dataset=/GraduationProject/resources/k-fold/A --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_c_imagenet20211109T1543/mask_rcnn_peritoneal_c_imagenet_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_C_TEST_B --dataset=/GraduationProject/resources/k-fold/B --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_c_imagenet20211109T1543/mask_rcnn_peritoneal_c_imagenet_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_C_TEST_D --dataset=/GraduationProject/resources/k-fold/D --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_c_imagenet20211109T1543/mask_rcnn_peritoneal_c_imagenet_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_C_TEST_E --dataset=/GraduationProject/resources/k-fold/E --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_c_imagenet20211109T1543/mask_rcnn_peritoneal_c_imagenet_0100.h5'
+
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_D_TEST_A --dataset=/GraduationProject/resources/k-fold/A --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_d_imagenet20211110T1637/mask_rcnn_peritoneal_d_imagenet_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_D_TEST_B --dataset=/GraduationProject/resources/k-fold/B --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_d_imagenet20211110T1637/mask_rcnn_peritoneal_d_imagenet_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_D_TEST_C --dataset=/GraduationProject/resources/k-fold/C --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_d_imagenet20211110T1637/mask_rcnn_peritoneal_d_imagenet_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_D_TEST_E --dataset=/GraduationProject/resources/k-fold/E --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_d_imagenet20211110T1637/mask_rcnn_peritoneal_d_imagenet_0100.h5'
+
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_E_TEST_A --dataset=/GraduationProject/resources/k-fold/A --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_e_imagenet20211115T1150/mask_rcnn_peritoneal_e_imagenet_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_E_TEST_B --dataset=/GraduationProject/resources/k-fold/B --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_e_imagenet20211115T1150/mask_rcnn_peritoneal_e_imagenet_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_E_TEST_C --dataset=/GraduationProject/resources/k-fold/C --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_e_imagenet20211115T1150/mask_rcnn_peritoneal_e_imagenet_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_IOU) && python IOU.py --name=IMAGENET_E_TEST_D --dataset=/GraduationProject/resources/k-fold/D --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_e_imagenet20211115T1150/mask_rcnn_peritoneal_e_imagenet_0100.h5'
+
+
 label-gen: ## Generator MaskRCNN Training Label
+	# Parameter Example:
 	# --label="/GraduationProject/resources/k-fold/peritoneal_cavity.txt"
 	# --segmentation="/GraduationProject/assets/vhp/(VKH) Segmented Images (1000 X 570)"
 	# --target="/GraduationProject/assets/alignment/CT Image Resize (1000 x 570)"
@@ -69,10 +126,12 @@ label-gen: ## Generator MaskRCNN Training Label
 	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_GEN_LABEL) && python generator.py $(argv)'
 
 label-verify: ## Verify MaskRCNN Training Label
+	# Parameter Example:
 	# --dataset="/GraduationProject/resources/k-fold/A"
 	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_VERIFY_LABEL) && python verify.py $(argv)'
 
 tensorboard: ## Open Tensorboard
+	# Parameter Example:
 	# --logdir=/GraduationProject/logs/Weights/coco
 	docker run -p 6006:6006 $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'tensorboard $(argv) --host 0.0.0.0'
 
