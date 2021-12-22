@@ -1,5 +1,5 @@
 cnf ?= config.env
-argv ?=
+argv ?= ""
 include $(cnf)
 
 ifeq ($(OS), Windows_NT)
@@ -66,7 +66,8 @@ label-verify: ## Verify MaskRCNN Training Label
 	--dataset="/GraduationProject/resources/k-fold/A"'
 
 tensorboard: ## Open Tensorboard
-	docker run -p 6006:6006 $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'tensorboard --logdir=/GraduationProject/logs/Weights/coco --host 0.0.0.0'
+	#docker run -p 6006:6006 $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'tensorboard --logdir=/GraduationProject/logs/Weights/coco --host 0.0.0.0'
+	docker run -p 6006:6006 $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'tensorboard $(argv) --host 0.0.0.0'
 
 version: ## current version
 	@echo $(APP_VERSION)
