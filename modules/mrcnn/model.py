@@ -12,9 +12,12 @@ import math
 import multiprocessing
 import os
 import re
+import sys
 from collections import OrderedDict
 # Requires TensorFlow 2.0+
 from distutils.version import LooseVersion
+
+sys.path.append("../../")
 
 import numpy as np
 import tensorflow as tf
@@ -23,7 +26,7 @@ import tensorflow.keras.backend as K
 import tensorflow.keras.layers as KL
 import tensorflow.keras.models as KM
 import tensorflow.keras.utils as KU
-from mrcnn import utils
+from modules.mrcnn import utils
 from tensorflow.python.eager import context
 
 assert LooseVersion(tf.__version__) >= LooseVersion("2.0")
@@ -2364,8 +2367,8 @@ class MaskRCNN(object):
             validation_data=val_generator,
             validation_steps=self.config.VALIDATION_STEPS,
             max_queue_size=100,
-            workers=workers,
-            use_multiprocessing=workers > 1,
+            workers=1,
+            use_multiprocessing=False,
         )
         self.epoch = max(self.epoch, epochs)
 
