@@ -1,4 +1,5 @@
 cnf ?= config.env
+argv ?=
 include $(cnf)
 
 ifeq ($(OS), Windows_NT)
@@ -29,29 +30,29 @@ training: ## MaskRCNN Training
 
 splash: ## MaskRCNN Splash
 	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_A_TEST_B --images=/GraduationProject/resources/k-fold/B/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_A_TEST_C --images=/GraduationProject/resources/k-fold/C/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_A_TEST_D --images=/GraduationProject/resources/k-fold/D/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_A_TEST_E --images=/GraduationProject/resources/k-fold/E/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
-
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_B_TEST_A --images=/GraduationProject/resources/k-fold/A/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_b_coco20211217T0432-retrain/mask_rcnn_peritoneal_b_coco_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_B_TEST_C --images=/GraduationProject/resources/k-fold/C/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_b_coco20211217T0432-retrain/mask_rcnn_peritoneal_b_coco_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_B_TEST_D --images=/GraduationProject/resources/k-fold/D/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_b_coco20211217T0432-retrain/mask_rcnn_peritoneal_b_coco_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_B_TEST_E --images=/GraduationProject/resources/k-fold/E/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_b_coco20211217T0432-retrain/mask_rcnn_peritoneal_b_coco_0100.h5'
-
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_C_TEST_A --images=/GraduationProject/resources/k-fold/A/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_c_coco20211115T1430/mask_rcnn_peritoneal_c_coco_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_C_TEST_B --images=/GraduationProject/resources/k-fold/B/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_c_coco20211115T1430/mask_rcnn_peritoneal_c_coco_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_C_TEST_D --images=/GraduationProject/resources/k-fold/D/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_c_coco20211115T1430/mask_rcnn_peritoneal_c_coco_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_C_TEST_E --images=/GraduationProject/resources/k-fold/E/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_c_coco20211115T1430/mask_rcnn_peritoneal_c_coco_0100.h5'
-
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_D_TEST_A --images=/GraduationProject/resources/k-fold/A/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_d_coco20211105T1545/mask_rcnn_peritoneal_d_coco_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_D_TEST_B --images=/GraduationProject/resources/k-fold/B/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_d_coco20211105T1545/mask_rcnn_peritoneal_d_coco_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_D_TEST_C --images=/GraduationProject/resources/k-fold/C/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_d_coco20211105T1545/mask_rcnn_peritoneal_d_coco_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_D_TEST_E --images=/GraduationProject/resources/k-fold/E/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_d_coco20211105T1545/mask_rcnn_peritoneal_d_coco_0100.h5'
-
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_E_TEST_A --images=/GraduationProject/resources/k-fold/A/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_e_coco20211220T0810-retrain/mask_rcnn_peritoneal_e_coco_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_E_TEST_B --images=/GraduationProject/resources/k-fold/B/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_e_coco20211220T0810-retrain/mask_rcnn_peritoneal_e_coco_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_E_TEST_C --images=/GraduationProject/resources/k-fold/C/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_e_coco20211220T0810-retrain/mask_rcnn_peritoneal_e_coco_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_E_TEST_D --images=/GraduationProject/resources/k-fold/D/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_e_coco20211220T0810-retrain/mask_rcnn_peritoneal_e_coco_0100.h5'
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_A_TEST_C --images=/GraduationProject/resources/k-fold/C/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_A_TEST_D --images=/GraduationProject/resources/k-fold/D/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_A_TEST_E --images=/GraduationProject/resources/k-fold/E/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
+#
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_B_TEST_A --images=/GraduationProject/resources/k-fold/A/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_b_coco20211217T0432-retrain/mask_rcnn_peritoneal_b_coco_0100.h5'
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_B_TEST_C --images=/GraduationProject/resources/k-fold/C/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_b_coco20211217T0432-retrain/mask_rcnn_peritoneal_b_coco_0100.h5'
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_B_TEST_D --images=/GraduationProject/resources/k-fold/D/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_b_coco20211217T0432-retrain/mask_rcnn_peritoneal_b_coco_0100.h5'
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_B_TEST_E --images=/GraduationProject/resources/k-fold/E/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_b_coco20211217T0432-retrain/mask_rcnn_peritoneal_b_coco_0100.h5'
+#
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_C_TEST_A --images=/GraduationProject/resources/k-fold/A/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_c_coco20211115T1430/mask_rcnn_peritoneal_c_coco_0100.h5'
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_C_TEST_B --images=/GraduationProject/resources/k-fold/B/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_c_coco20211115T1430/mask_rcnn_peritoneal_c_coco_0100.h5'
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_C_TEST_D --images=/GraduationProject/resources/k-fold/D/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_c_coco20211115T1430/mask_rcnn_peritoneal_c_coco_0100.h5'
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_C_TEST_E --images=/GraduationProject/resources/k-fold/E/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_c_coco20211115T1430/mask_rcnn_peritoneal_c_coco_0100.h5'
+#
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_D_TEST_A --images=/GraduationProject/resources/k-fold/A/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_d_coco20211105T1545/mask_rcnn_peritoneal_d_coco_0100.h5'
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_D_TEST_B --images=/GraduationProject/resources/k-fold/B/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_d_coco20211105T1545/mask_rcnn_peritoneal_d_coco_0100.h5'
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_D_TEST_C --images=/GraduationProject/resources/k-fold/C/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_d_coco20211105T1545/mask_rcnn_peritoneal_d_coco_0100.h5'
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_D_TEST_E --images=/GraduationProject/resources/k-fold/E/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_d_coco20211105T1545/mask_rcnn_peritoneal_d_coco_0100.h5'
+#
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_E_TEST_A --images=/GraduationProject/resources/k-fold/A/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_e_coco20211220T0810-retrain/mask_rcnn_peritoneal_e_coco_0100.h5'
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_E_TEST_B --images=/GraduationProject/resources/k-fold/B/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_e_coco20211220T0810-retrain/mask_rcnn_peritoneal_e_coco_0100.h5'
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_E_TEST_C --images=/GraduationProject/resources/k-fold/C/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_e_coco20211220T0810-retrain/mask_rcnn_peritoneal_e_coco_0100.h5'
+#	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_E_TEST_D --images=/GraduationProject/resources/k-fold/D/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_e_coco20211220T0810-retrain/mask_rcnn_peritoneal_e_coco_0100.h5'
 
 label-gen: ## Generator MaskRCNN Training Label
 	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_GEN_LABEL) && python generator.py \
@@ -59,6 +60,13 @@ label-gen: ## Generator MaskRCNN Training Label
  	--segmentation="/GraduationProject/assets/vhp/(VKH) Segmented Images (1000 X 570)" \
  	--target="/GraduationProject/assets/alignment/CT Image Resize (1000 x 570)" \
  	--output="normal.json"'
+
+label-verify: ## Verify MaskRCNN Training Label
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_VERIFY_LABEL) && python verify.py \
+	--dataset="/GraduationProject/resources/k-fold/A"'
+
+tensorboard: ## Open Tensorboard
+	docker run -p 6006:6006 $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'tensorboard --logdir=/GraduationProject/logs/Weights/coco --host 0.0.0.0'
 
 version: ## current version
 	@echo $(APP_VERSION)
