@@ -1,8 +1,6 @@
 cnf ?= config.env
 include $(cnf)
 
-ENV_YAML := CPC-MaskRCNN-Normal.yml
-
 ifeq ($(OS), Windows_NT)
 	DETECTED_OS := Windows
 else
@@ -10,14 +8,11 @@ else
 	export $(shell sed 's/=.*//' $(cnf))
 
 	ifeq ($(DETECTED_OS), Darwin)
-		ENV_YAML := environment.yml
+		# MacOS
 	endif
 endif
 
-DOCKER_PATH := .docker/Dockerfile
-
 $(info Detected OS: $(DETECTED_OS))
-$(info Docker Path: $(DOCKER_PATH))
 
 .PHONY: help
 .DEFAULT_GOAL := help
@@ -29,38 +24,41 @@ else
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 endif
 
-build: ## Build the container
-	docker build -t $(APP_NAME) --build-arg ENV_YAML=$(ENV_YAML) --build-arg DETECTED_OS=$(DETECTED_OS) -f ${DOCKER_PATH} .
+training: ## MaskRCNN Training
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_TRAINING) && python training.py --name=Peritoneal_A_coco --dataset=/GraduationProject/resources/k-fold/B --weights=coco'
 
-build-nc: ## Build the container without cache
-	docker build --no-cache -t $(APP_NAME) --build-arg ENV_YAML=$(ENV_YAML) -f ${DOCKER_PATH} .
+splash: ## MaskRCNN Splash
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_A_TEST_B --images=/GraduationProject/resources/k-fold/B/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_A_TEST_C --images=/GraduationProject/resources/k-fold/C/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_A_TEST_D --images=/GraduationProject/resources/k-fold/D/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_A_TEST_E --images=/GraduationProject/resources/k-fold/E/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
 
-run: ## Run the container on the port configured in config.env
-	docker run -it --rm --env-file=./config.env -p=$(PORT):$(PORT) --name="$(APP_NAME)" $(APP_NAME) /bin/bash
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_B_TEST_A --images=/GraduationProject/resources/k-fold/A/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_b_coco20211217T0432-retrain/mask_rcnn_peritoneal_b_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_B_TEST_C --images=/GraduationProject/resources/k-fold/C/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_b_coco20211217T0432-retrain/mask_rcnn_peritoneal_b_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_B_TEST_D --images=/GraduationProject/resources/k-fold/D/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_b_coco20211217T0432-retrain/mask_rcnn_peritoneal_b_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_B_TEST_E --images=/GraduationProject/resources/k-fold/E/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_b_coco20211217T0432-retrain/mask_rcnn_peritoneal_b_coco_0100.h5'
 
-up: build ## Bring the container online
-	docker-compose --file ".docker/docker-compose.yml" -p "$(APP_NAME)-container" up
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_C_TEST_A --images=/GraduationProject/resources/k-fold/A/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_c_coco20211115T1430/mask_rcnn_peritoneal_c_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_C_TEST_B --images=/GraduationProject/resources/k-fold/B/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_c_coco20211115T1430/mask_rcnn_peritoneal_c_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_C_TEST_D --images=/GraduationProject/resources/k-fold/D/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_c_coco20211115T1430/mask_rcnn_peritoneal_c_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_C_TEST_E --images=/GraduationProject/resources/k-fold/E/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_c_coco20211115T1430/mask_rcnn_peritoneal_c_coco_0100.h5'
 
-down: ## Bring the container offline
-	docker-compose --file ".docker/docker-compose.yml" -p "$(APP_NAME)-container" down --rmi local
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_D_TEST_A --images=/GraduationProject/resources/k-fold/A/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_d_coco20211105T1545/mask_rcnn_peritoneal_d_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_D_TEST_B --images=/GraduationProject/resources/k-fold/B/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_d_coco20211105T1545/mask_rcnn_peritoneal_d_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_D_TEST_C --images=/GraduationProject/resources/k-fold/C/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_d_coco20211105T1545/mask_rcnn_peritoneal_d_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_D_TEST_E --images=/GraduationProject/resources/k-fold/E/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_d_coco20211105T1545/mask_rcnn_peritoneal_d_coco_0100.h5'
 
-ssh: ## Into the container
-	docker exec -it $(APP_NAME) /bin/bash
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_E_TEST_A --images=/GraduationProject/resources/k-fold/A/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_e_coco20211220T0810-retrain/mask_rcnn_peritoneal_e_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_E_TEST_B --images=/GraduationProject/resources/k-fold/B/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_e_coco20211220T0810-retrain/mask_rcnn_peritoneal_e_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_E_TEST_C --images=/GraduationProject/resources/k-fold/C/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_e_coco20211220T0810-retrain/mask_rcnn_peritoneal_e_coco_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_E_TEST_D --images=/GraduationProject/resources/k-fold/D/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_e_coco20211220T0810-retrain/mask_rcnn_peritoneal_e_coco_0100.h5'
 
-stop: ## Stop and remove the running container
-	docker stop $(APP_NAME)
-	docker rm $(APP_NAME)
-
-# Docker tagging
-tag: tag-latest tag-version ## Generate tags {version} and latest tags for containers
-
-tag-latest: ## Generate tags latest for containers
-	@echo '創建標籤 latest'
-	docker tag $(APP_NAME) $(DOCKER_REPO)/$(APP_NAME):latest
-
-tag-version: ## Generate tags {version} for containers
-	@echo '創建標籤 $(APP_VERSION)'
-	docker tag $(APP_NAME) $(DOCKER_REPO)/$(APP_NAME):$(APP_VERSION)
+label-gen: ## Generator MaskRCNN Training Label
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_GEN_LABEL) && python generator.py \
+ 	--label="/GraduationProject/resources/k-fold/peritoneal_cavity.txt" \
+ 	--segmentation="/GraduationProject/assets/vhp/(VKH) Segmented Images (1000 X 570)" \
+ 	--target="/GraduationProject/assets/alignment/CT Image Resize (1000 x 570)" \
+ 	--output="normal.json"'
 
 version: ## current version
 	@echo $(APP_VERSION)

@@ -10,21 +10,19 @@ sys.path.append("../../../")
 from modules.mrcnn import utils
 
 
-class CPCDataset(utils.Dataset):
+class PeritonealDataset(utils.Dataset):
     def load_via(self, dataset_dir, subset):
         for x in range(settings.CLASSES_NUM):
             self.add_class(
                 settings.RECOGNIZABLE_NAME,
                 x + 1,
-                settings.CLASSES[x]
-            )
+                settings.CLASSES[x])
 
         assert subset in ["train", "val"]
         dataset_dir = os.path.join(dataset_dir, subset)
 
         annotations = json.load(open(os.path.join(dataset_dir, "via_region_data.json")))
         annotations = list(annotations.values())
-
         annotations = [a for a in annotations if a["regions"]]
 
         for a in annotations:
@@ -54,8 +52,8 @@ class CPCDataset(utils.Dataset):
             return super(self.__class__, self).load_mask(image_id)
 
         info = self.image_info[image_id]
-        mask = np.zeros([info["height"], info["width"], len(info["polygons"])],
-                        dtype=np.uint8)
+        mask = np.zeros([info["height"], info["width"], len(info["polygons"])], dtype=np.uint8)
+
         for i, p in enumerate(info["polygons"]):
             # Get indexes of pixels inside the polygon and set them to 1
             rr, cc = skimage.draw.polygon(p['all_points_y'], p['all_points_x'])

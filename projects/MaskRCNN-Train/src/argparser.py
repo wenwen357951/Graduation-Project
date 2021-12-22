@@ -1,5 +1,4 @@
 import argparse
-
 import settings
 
 parser = argparse.ArgumentParser(
@@ -9,8 +8,16 @@ parser = argparse.ArgumentParser(
 )
 
 parser.add_argument(
+    '--name',
+    required=True,
+    default="Peritoneal_TEST",
+    metavar="'Recognizable Name'",
+    help="可辨識名稱"
+)
+
+parser.add_argument(
     '--dataset',
-    required=False,
+    required=True,
     metavar="/docs/to/your/dataset/",
     help="資料集的資料集路徑"
 )
@@ -19,7 +26,7 @@ parser.add_argument(
     '--weights',
     required=True,
     metavar="/docs/to/weights.h5/",
-    help="權重檔案(.h5)的路徑或 'coco'"
+    help="權重檔案(.h5)的路徑或 'coco' or 'imagenet'"
 )
 
 parser.add_argument(
@@ -30,4 +37,3 @@ parser.add_argument(
 )
 
 args = parser.parse_args()
-

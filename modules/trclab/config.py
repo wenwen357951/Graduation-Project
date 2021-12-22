@@ -1,4 +1,5 @@
 import os
+import shutil
 
 ROOT_DIR = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir))
 
@@ -70,7 +71,7 @@ MODULES_DIR = os.path.join(ROOT_DIR, "modules")
 # # Projects
 PROJECTS_DIR = os.path.join(ROOT_DIR, "projects")
 # # # Label Generate
-PROJECTS_LG_DIR = os.path.join(PROJECTS_DIR, "LabelGenerate")
+PROJECTS_LG_DIR = os.path.join(PROJECTS_DIR, "MaskRCNN-LabelGenerator")
 
 # Logs
 LOGS_DIR = os.path.join(ROOT_DIR, "logs")
@@ -97,3 +98,20 @@ DATASET_KFOLD_B = os.path.join(RESOURCES_KFOLD_DIR, "B")
 DATASET_KFOLD_C = os.path.join(RESOURCES_KFOLD_DIR, "C")
 DATASET_KFOLD_D = os.path.join(RESOURCES_KFOLD_DIR, "D")
 DATASET_KFOLD_E = os.path.join(RESOURCES_KFOLD_DIR, "E")
+
+
+def create_folder_if_not_exists(folder_path, reset=False):
+    if os.path.exists(folder_path):
+        if os.path.isfile(folder_path):
+            os.remove(folder_path)
+        else:
+            if reset:
+                shutil.rmtree(folder_path)
+                os.makedirs(folder_path)
+    else:
+        os.makedirs(folder_path)
+
+
+
+def create_parent_folder_if_not_exists(file_path):
+    create_folder_if_not_exists(os.path.join(os.pardir, file_path))

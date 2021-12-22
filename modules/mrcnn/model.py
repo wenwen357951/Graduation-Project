@@ -1813,7 +1813,7 @@ class DataGenerator(KU.Sequence):
 
 
 ############################################################
-#  MaskRCNN Class
+#  MaskRCNN-Train Class
 ############################################################
 
 class MaskRCNN(object):

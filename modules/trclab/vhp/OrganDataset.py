@@ -1,7 +1,7 @@
 import json
 import numpy
 import os
-from glob2 import glob
+from glob import glob
 from multiprocessing import Pool
 
 from ..utils.ProgressBar import ProgressBar

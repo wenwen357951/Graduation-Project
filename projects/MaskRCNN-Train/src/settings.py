@@ -3,18 +3,18 @@ import sys
 
 # 為系統添加此專案路徑，來找到 mrcnn 函式庫
 sys.path.append("../../../")
+from modules.trclab import config as docs
+from modules.mrcnn.config import Config
+
 ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
-DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs")
+DEFAULT_LOGS_DIR = os.path.join(docs.LOGS_DIR, "MaskRCNN-Train")
+docs.create_folder_if_not_exists(DEFAULT_LOGS_DIR)
 COCO_WEIGHTS_PATH = os.path.join(ROOT_DIR, "mask_rcnn_coco.h5")
 
-from modules.mrcnn.config import Config
-from modules.trclab import config as docs
 
 ####################
 #   訓練模型配置
 ####################
-# 可識別名稱
-RECOGNIZABLE_NAME = "Peritoneal_A _coco"
 # GPU 可容納圖片數
 # 如果顯示卡記憶體容量12GB，可以剛好使用兩張圖片
 IMAGES_PER_GPU = 4
@@ -28,8 +28,10 @@ STEPS_PER_EPOCH = 100
 DETECTION_MIN_CONFIDENCE = 0.9
 
 # # # DON'T TOUCH # # #
+RECOGNIZABLE_NAME = "Peritoneal"
 CLASSES = [line.strip() for line in open(CLASSES_TXT, 'r', encoding="UTF-8")]
 CLASSES_NUM = len(CLASSES)
+CLASS_LIST_WITH_BG = CLASSES.copy().insert(0, "BG")
 #######################
 
 

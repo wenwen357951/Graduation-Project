@@ -20,11 +20,11 @@ from matplotlib.patches import Polygon
 from skimage.measure import find_contours
 
 # Root directory of the project
-ROOT_DIR = os.path.abspath("../")
+ROOT_DIR = os.path.abspath("../../")
 
 # Import Mask RCNN
 sys.path.append(ROOT_DIR)  # To find local version of the library
-from mrcnn import utils
+from modules.mrcnn import utils
 from ..trclab import config as docs
 import random
 
@@ -84,8 +84,8 @@ def apply_mask(image, mask, color, alpha=0.5):
 def display_instances(image, boxes, masks, class_ids, class_names,
                       scores=None, title="",
                       figsize=(16, 16), ax=None,
-                      show_mask=False, show_bbox=True,
-                      colors=None, captions=None):
+                      show_mask=True, show_bbox=True,
+                      colors=None, captions=None, output_filepath=None):
     """
     boxes: [num_instance, (y1, x1, y2, x2, class_id)] in image coordinates.
     masks: [height, width, num_instances]
@@ -167,12 +167,10 @@ def display_instances(image, boxes, masks, class_ids, class_names,
 
     # result_img = masked_image.astype(np.uint8)
     ax.imshow(masked_image.astype(np.uint8))
-    plt.savefig(os.path.join(docs.LOGS_DIR, "iou", "output_image-{}.jpg".format(random.randrange(0, 798, 1))))
-    # plt.imsave(os.path.join(docs.LOGS_DIR, "iou", "output_image-{}.jpg".format(random.randrange(0, 798, 1))),
-    #            result_img)
+    if output_filepath is not None:
+        plt.savefig(output_filepath)
     # if auto_show:
     #     plt.show()
-    #
 
 
 def display_differences(image,
