@@ -14,6 +14,7 @@ else
 endif
 
 $(info Detected OS: $(DETECTED_OS))
+$(info Argv: $(argv))
 
 .PHONY: help
 .DEFAULT_GOAL := help
@@ -26,10 +27,16 @@ else
 endif
 
 training: ## MaskRCNN Training
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_TRAINING) && python training.py --name=Peritoneal_A_coco --dataset=/GraduationProject/resources/k-fold/B --weights=coco'
+	# --name=Peritoneal_A_coco
+	# --dataset=/GraduationProject/resources/k-fold/B
+	# --weights=coco
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_TRAINING) && python training.py $(argv)'
 
 splash: ## MaskRCNN Splash
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_A_TEST_B --images=/GraduationProject/resources/k-fold/B/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
+	# -name=COCO_A_TEST_B
+	# --images=/GraduationProject/resources/k-fold/B/val
+	# --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py $(argv)'
 #	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_A_TEST_C --images=/GraduationProject/resources/k-fold/C/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
 #	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_A_TEST_D --images=/GraduationProject/resources/k-fold/D/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
 #	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_A_TEST_E --images=/GraduationProject/resources/k-fold/E/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5'
@@ -55,18 +62,18 @@ splash: ## MaskRCNN Splash
 #	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_SPLASH) && python splash.py --name=COCO_E_TEST_D --images=/GraduationProject/resources/k-fold/D/val --weights=/GraduationProject/logs/Weights/coco/peritoneal_e_coco20211220T0810-retrain/mask_rcnn_peritoneal_e_coco_0100.h5'
 
 label-gen: ## Generator MaskRCNN Training Label
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_GEN_LABEL) && python generator.py \
- 	--label="/GraduationProject/resources/k-fold/peritoneal_cavity.txt" \
- 	--segmentation="/GraduationProject/assets/vhp/(VKH) Segmented Images (1000 X 570)" \
- 	--target="/GraduationProject/assets/alignment/CT Image Resize (1000 x 570)" \
- 	--output="normal.json"'
+	# --label="/GraduationProject/resources/k-fold/peritoneal_cavity.txt"
+	# --segmentation="/GraduationProject/assets/vhp/(VKH) Segmented Images (1000 X 570)"
+	# --target="/GraduationProject/assets/alignment/CT Image Resize (1000 x 570)"
+	# --output="normal.json"
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_GEN_LABEL) && python generator.py $(argv)'
 
 label-verify: ## Verify MaskRCNN Training Label
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_VERIFY_LABEL) && python verify.py \
-	--dataset="/GraduationProject/resources/k-fold/A"'
+	# --dataset="/GraduationProject/resources/k-fold/A"
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_VERIFY_LABEL) && python verify.py $(argv)'
 
 tensorboard: ## Open Tensorboard
-	#docker run -p 6006:6006 $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'tensorboard --logdir=/GraduationProject/logs/Weights/coco --host 0.0.0.0'
+	# --logdir=/GraduationProject/logs/Weights/coco
 	docker run -p 6006:6006 $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'tensorboard $(argv) --host 0.0.0.0'
 
 version: ## current version
