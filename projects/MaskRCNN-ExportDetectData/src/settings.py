@@ -7,7 +7,7 @@ from modules.trclab import config as docs
 from modules.mrcnn.config import Config
 
 DEBUG_MODE = 1
-DEFAULT_LOGS_DIR = os.path.join(docs.LOGS_DIR, "MaskRCNN-IOU")
+DEFAULT_LOGS_DIR = os.path.join(docs.LOGS_DIR, "MaskRCNN-ExportDetectData")
 docs.create_folder_if_not_exists(DEFAULT_LOGS_DIR)
 
 ####################

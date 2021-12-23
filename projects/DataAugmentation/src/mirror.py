@@ -7,7 +7,8 @@ from glob2 import glob
 ROOT_DIR = os.path.abspath("../../../")
 sys.path.append(ROOT_DIR)
 from modules.trclab import config
-#image import from config path
+
+# image import from config path
 image_dir = config.ASSETS_VHP_SEG_DIR
 # find every image in dir
 files = glob(os.path.join(image_dir, "*.bmp"), recursive=True)

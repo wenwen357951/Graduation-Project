@@ -2,7 +2,7 @@ import argparse
 import settings
 
 parser = argparse.ArgumentParser(
-    description="計算 Mask R-CNN 偵測辨識出腹腔器官 IOU",
+    description="輸出 Mask R-CNN 偵測辨識出之資料數據",
     add_help=True,
     formatter_class=argparse.ArgumentDefaultsHelpFormatter
 )
