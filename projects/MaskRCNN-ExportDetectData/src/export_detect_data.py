@@ -42,7 +42,7 @@ def computed_iou(dataset_path):
     json_data = dict()
 
     gt_classes_total_area = [0] * len(settings.CLASSES)
-    for image_id in dataset_val.image_ids[500:510]:
+    for image_id in dataset_val.image_ids:
         image, image_meta, gt_class_ids, gt_bbox, gt_mask = model_lib.load_image_gt(dataset_val, CONFIG, image_id)
         gt_area = [np.sum(gt_mask[:, :, idx]) for idx in range(len(gt_class_ids))]
 
