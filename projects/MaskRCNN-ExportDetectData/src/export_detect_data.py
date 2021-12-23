@@ -41,7 +41,7 @@ def computed_iou(dataset_path):
 
     json_data = dict()
 
-    gt_classes_total_area = [0] * len(settings.CLASSES)
+    gt_classes_total_area = [0] * len(settings.CLASS_LIST_WITH_BG)
     for image_id in dataset_val.image_ids:
         image, image_meta, gt_class_ids, gt_bbox, gt_mask = model_lib.load_image_gt(dataset_val, CONFIG, image_id)
         gt_area = [np.sum(gt_mask[:, :, idx]) for idx in range(len(gt_class_ids))]
@@ -75,7 +75,6 @@ def computed_iou(dataset_path):
             json_data[image_name][idx]["gt_difference"] = int(gt_area[idx])
             json_data[image_name][idx]["pr_difference"] = int(pr_area[idx])
 
-    gt_classes_total_area.insert(0, 0)  # Insert Background
     json_data["gt_total_area"] = gt_classes_total_area
     with open(os.path.join(args.logs, args.name + ".json"), "w+", encoding="utf-8") as json_file:
         json.dump(json_data, json_file)
