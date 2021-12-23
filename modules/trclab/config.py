@@ -9,6 +9,7 @@ ASSETS_DIR = os.path.join(ROOT_DIR, "assets")
 # # Assets VHP Dir
 ASSETS_VHP_DIR = os.path.join(ASSETS_DIR, "vhp")
 DATASET_VHP_SEG = os.path.join(ASSETS_VHP_DIR, "(VKH) Segmented Images (1000 X 570)")
+DATASET_VHP_CT = os.path.join(ASSETS_VHP_DIR, "(VKH) CT Images (494 X 281)")
 DATASET_VHP_CT_RESIZE = os.path.join(ASSETS_VHP_DIR, "(VKH) CT Images Resize (1000 X 570)")
 
 # # Assets Alignment Dir

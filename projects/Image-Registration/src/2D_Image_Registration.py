@@ -1,86 +1,80 @@
+from PIL import Image
+from distutils.version import StrictVersion as VS
+from matplotlib import pyplot as plt
 import os
 import sys
 import glob
 import itk
 import cv2
+import math
 import numpy as np
-from matplotlib import pyplot as plt
 
 plt.ion()
-from PIL import Image
-import math
-from distutils.version import StrictVersion as VS
 
-ROOT_DIR = os.path.abspath("..")
-RESOURCES_DIR = os.path.join(ROOT_DIR, "resources")
-OUTPUT_DIR = os.path.join(ROOT_DIR, "output")
+sys.path.append("../../../")
+from modules.trclab import config as docs
 
-IMAGE_DIR = os.path.join(RESOURCES_DIR, "images")
-IMAGE_DIR_ANN = os.path.join(IMAGE_DIR, "ann")
-IMAGE_DIR_CT = os.path.join(IMAGE_DIR, "ct")
-IMAGE_DIR_MRI = os.path.join(IMAGE_DIR, "mr")
-IMAGE_DIR_SEG = os.path.join(IMAGE_DIR, "seg")
-
-print(RESOURCES_DIR)
+FIXED_IMAGE_DIR = docs.DATASET_VHP_SEG
+MOVING_IMAGE_DIR = docs.DATASET_VHP_CT
+OUTPUT_DIR = os.path.join(docs.LOGS_DIR, "Image-Registration")
+docs.create_folder_if_not_exists(OUTPUT_DIR)
 
 
-def main(dir, type):
+def normalize(moving_image_file):
+    # 標記圖片
+    moving_image_basename = os.path.basename(moving_image_file)
+    fixed_image_file = os.path.join(FIXED_IMAGE_DIR, moving_image_basename[:-4] + ".bmp")
+
+    moving_image = None
+    fixed_image = None
+    for idx, image_file in enumerate([moving_image_file, fixed_image_file]):
+        # Load Image (grayscale)
+        image = cv2.imread(image_file, 0)
+        # 邊緣檢測
+        x = cv2.Sobel(image, cv2.CV_16S, 1, 0)
+        y = cv2.Sobel(image, cv2.CV_16S, 0, 1)
+        absX = cv2.convertScaleAbs(x)
+        absY = cv2.convertScaleAbs(y)
+        image = cv2.addWeighted(absX, 0.5, absY, 0.5, 0)
+        image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
+        # 去噪
+        image = cv2.fastNlMeansDenoisingColored(image, None, 30, 10, 7, 21)
+        # 二質化
+        _, image = cv2.threshold(image, 100, 255, cv2.THRESH_BINARY_INV)
+        image = cv2.resize(image, (494, 281), interpolation=cv2.INTER_CUBIC)
+
+        if idx == 0:
+            moving_image = image
+        else:
+            fixed_image = image
+
+    cv2.imwrite(os.path.join(OUTPUT_DIR, "moving_image_tmp.jpg"), moving_image)
+    cv2.imwrite(os.path.join(OUTPUT_DIR, "fixed_image_tmp.jpg"), fixed_image)
+
+
+def image_registration():
     PixelType = itk.ctype('float')
-    image_files = glob.glob(dir + "/*.jpg", recursive=True)
-    for filename in image_files:
+    moving_image_files = glob.glob(os.path.join(MOVING_IMAGE_DIR, "*.jpg"))
+    for moving_image_file in moving_image_files:
+        normalize(moving_image_file)
 
-        basename = os.path.basename(filename)
-        filename_ann = os.path.join(IMAGE_DIR_ANN, basename)  # CRYO切片
-        filename_seg = os.path.join(IMAGE_DIR_SEG, basename[:-4] + ".bmp")  # 標記圖片
-        outputImageDir = os.path.join(OUTPUT_DIR, basename[:-4])  # 輸出位置
-        if not os.path.exists(outputImageDir):
-            os.mkdir(outputImageDir)  # 創資料夾
-
-        img = cv2.imread(filename, 0)
-        x = cv2.Sobel(img, cv2.CV_16S, 1, 0)  # 邊緣檢測
-        y = cv2.Sobel(img, cv2.CV_16S, 0, 1)
-        absX = cv2.convertScaleAbs(x)
-        absY = cv2.convertScaleAbs(y)
-        dst = cv2.addWeighted(absX, 0.5, absY, 0.5, 0)
-        cv2.imwrite('temp.jpg', dst, [cv2.IMWRITE_JPEG_QUALITY, 100])
-        img = cv2.imread('temp.jpg')
-        dstt = cv2.fastNlMeansDenoisingColored(img, None, 30, 10, 7, 21)  # 去噪
-        retval, dstt = cv2.threshold(dstt, 100, 255, cv2.THRESH_BINARY_INV)  # 二質化
-        cv2.imwrite('temp.jpg', dstt, [cv2.IMWRITE_JPEG_QUALITY, 100])
-
-        img = cv2.imread(filename_seg, 0)
-        x = cv2.Sobel(img, cv2.CV_16S, 1, 0)
-        y = cv2.Sobel(img, cv2.CV_16S, 0, 1)
-        absX = cv2.convertScaleAbs(x)
-        absY = cv2.convertScaleAbs(y)
-        dst = cv2.addWeighted(absX, 0.5, absY, 0.5, 0)
-        cv2.imwrite('ann_temp.jpg', dst, [cv2.IMWRITE_JPEG_QUALITY, 100])
-        img = cv2.imread('ann_temp.jpg')
-        dstt = cv2.fastNlMeansDenoisingColored(img, None, 30, 10, 7, 21)
-        retval, dstt = cv2.threshold(dstt, 100, 255, cv2.THRESH_BINARY_INV)
-        dstt = cv2.resize(dstt, (494, 281), interpolation=cv2.INTER_CUBIC)
-        cv2.imwrite('ann_temp.jpg', dstt, [cv2.IMWRITE_JPEG_QUALITY, 100])
-
-        fixedImage = itk.imread('ann_temp.jpg', PixelType)  #
-        movingImage = itk.imread("temp.jpg", PixelType)
-        Dimension = fixedImage.GetImageDimension()
+        moving_image = itk.imread(os.path.join(OUTPUT_DIR, "moving_image_tmp.jpg"), PixelType)
+        fixed_image = itk.imread(os.path.join(OUTPUT_DIR, "fixed_image_tmp.jpg"), PixelType)
+        Dimension = fixed_image.GetImageDimension()
         FixedImageType = itk.Image[PixelType, Dimension]
         MovingImageType = itk.Image[PixelType, Dimension]
 
         TransformType = itk.TranslationTransform[itk.D, Dimension]
         initialTransform = TransformType.New()
-
         optimizer = itk.RegularStepGradientDescentOptimizerv4.New(
             LearningRate=4,
             MinimumStepLength=0.001,
             RelaxationFactor=0.5,
             NumberOfIterations=200)
 
-        metric = itk.MeanSquaresImageToImageMetricv4[
-            FixedImageType, MovingImageType].New()
-
-        registration = itk.ImageRegistrationMethodv4.New(FixedImage=fixedImage,
-                                                         MovingImage=movingImage,
+        metric = itk.MeanSquaresImageToImageMetricv4[FixedImageType, MovingImageType].New()
+        registration = itk.ImageRegistrationMethodv4.New(FixedImage=fixed_image,
+                                                         MovingImage=moving_image,
                                                          Metric=metric,
                                                          Optimizer=optimizer,
                                                          InitialTransform=initialTransform)
@@ -118,33 +112,21 @@ def main(dir, type):
         outputCompositeTransform.AddTransform(movingInitialTransform)
         outputCompositeTransform.AddTransform(registration.GetModifiableTransform())
 
-        resampler = itk.ResampleImageFilter.New(Input=movingImage,
+        resampler = itk.ResampleImageFilter.New(Input=moving_image,
                                                 Transform=outputCompositeTransform,
                                                 UseReferenceImage=True,
-                                                ReferenceImage=fixedImage)
+                                                ReferenceImage=fixed_image)
         resampler.SetDefaultPixelValue(100)
 
         # 圖片移位----------------------------------------------------------------------
-        img = cv2.imread(filename, flags=1)  # flags=1讀取為彩色，flags=0讀取為灰度
+        img = cv2.imread(moving_image_file, flags=1)  # flags=1讀取為彩色，flags=0讀取為灰度
         img = cv2.resize(img, (494, 281), interpolation=cv2.INTER_CUBIC)  # 變更解析度
         h, w = img.shape[:2]
         mat_shift = np.float32([[1, 0, -translationAlongX], [0, 1, -translationAlongY]])  # 移位矩陣，相當於沿x軸平移100，沿y軸平移200
         dst = cv2.warpAffine(img, mat_shift, (w, h))
 
-        cv2.imwrite(os.path.join(outputImageDir, "final_Align_output" + type + ".jpg"), dst)  # 對齊後結果輸出
-
-        img = cv2.imread(filename_seg[:-4] + ".bmp", flags=1)  # flags=1讀取為彩色，flags=0讀取為灰度
-        img = cv2.resize(img, (494, 281), interpolation=cv2.INTER_CUBIC)  # 變更解析度
-        cv2.imwrite("filename_seg.jpg", img)
-
-        # 疊圖------
-        img1 = Image.open(os.path.join(outputImageDir, "final_Align_output" + type + ".jpg"))  # CT
-        img2 = Image.open("filename_seg.jpg")  # 標記原圖
-        final_img2 = Image.blend(img1, img2, ((math.sqrt(5) - 1) / 2))
-
-        final_img2.save(os.path.join(outputImageDir, "afterAlign_combine_" + type + ".jpg"))
-        print(type + basename + " 對齊完成")
-        print(os.path.join(outputImageDir, "afterAlign_combine_" + type + ".jpg"))
+        # 對齊後結果輸出
+        cv2.imwrite(os.path.join(OUTPUT_DIR, os.path.basename(moving_image_file)), dst)
 
 
 if __name__ == '__main__':
@@ -152,6 +134,4 @@ if __name__ == '__main__':
         print("ITK 4.9.0 is required.")
         sys.exit(1)
 
-    fixedImageDir = IMAGE_DIR_ANN
-    movingImageDir = IMAGE_DIR_CT
-    main(IMAGE_DIR_CT, "ct")
+    image_registration()
