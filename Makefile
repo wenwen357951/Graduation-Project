@@ -36,7 +36,7 @@ training: ## MaskRCNN Training
 
 splash: ## MaskRCNN Splash
 	# ============= Parameter Example =============
-	# -name=COCO_A_TEST_B
+	# --name=COCO_A_TEST_B
 	# --images=/GraduationProject/resources/k-fold/B/val
 	# --weights=/GraduationProject/logs/Weights/coco/peritoneal_a_coco20211104T2156/mask_rcnn_peritoneal_a_coco_0100.h5
 	# =============================================
@@ -48,31 +48,7 @@ detect-and-export: ## Export MaskRCNN Detect Data
 	# --dataset=/GraduationProject/resources/k-fold/B
 	# --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_a_imagenet20211108T1624/mask_rcnn_peritoneal_a_imagenet_0100.h5
 	# =============================================
-	#docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py $(argv)'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_A_TEST_B --dataset=/GraduationProject/resources/k-fold/B --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_a_imagenet20211108T1624/mask_rcnn_peritoneal_a_imagenet_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_A_TEST_C --dataset=/GraduationProject/resources/k-fold/C --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_a_imagenet20211108T1624/mask_rcnn_peritoneal_a_imagenet_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_A_TEST_D --dataset=/GraduationProject/resources/k-fold/D --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_a_imagenet20211108T1624/mask_rcnn_peritoneal_a_imagenet_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_A_TEST_E --dataset=/GraduationProject/resources/k-fold/E --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_a_imagenet20211108T1624/mask_rcnn_peritoneal_a_imagenet_0100.h5'
-
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_B_TEST_A --dataset=/GraduationProject/resources/k-fold/A --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_b_imagenet20211111T2022/mask_rcnn_peritoneal_b_imagenet_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_B_TEST_C --dataset=/GraduationProject/resources/k-fold/C --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_b_imagenet20211111T2022/mask_rcnn_peritoneal_b_imagenet_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_B_TEST_D --dataset=/GraduationProject/resources/k-fold/D --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_b_imagenet20211111T2022/mask_rcnn_peritoneal_b_imagenet_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_B_TEST_E --dataset=/GraduationProject/resources/k-fold/E --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_b_imagenet20211111T2022/mask_rcnn_peritoneal_b_imagenet_0100.h5'
-
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_C_TEST_A --dataset=/GraduationProject/resources/k-fold/A --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_c_imagenet20211109T1543/mask_rcnn_peritoneal_c_imagenet_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_C_TEST_B --dataset=/GraduationProject/resources/k-fold/B --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_c_imagenet20211109T1543/mask_rcnn_peritoneal_c_imagenet_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_C_TEST_D --dataset=/GraduationProject/resources/k-fold/D --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_c_imagenet20211109T1543/mask_rcnn_peritoneal_c_imagenet_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_C_TEST_E --dataset=/GraduationProject/resources/k-fold/E --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_c_imagenet20211109T1543/mask_rcnn_peritoneal_c_imagenet_0100.h5'
-
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_D_TEST_A --dataset=/GraduationProject/resources/k-fold/A --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_d_imagenet20211110T1637/mask_rcnn_peritoneal_d_imagenet_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_D_TEST_B --dataset=/GraduationProject/resources/k-fold/B --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_d_imagenet20211110T1637/mask_rcnn_peritoneal_d_imagenet_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_D_TEST_C --dataset=/GraduationProject/resources/k-fold/C --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_d_imagenet20211110T1637/mask_rcnn_peritoneal_d_imagenet_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_D_TEST_E --dataset=/GraduationProject/resources/k-fold/E --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_d_imagenet20211110T1637/mask_rcnn_peritoneal_d_imagenet_0100.h5'
-
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_E_TEST_A --dataset=/GraduationProject/resources/k-fold/A --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_e_imagenet20211115T1150/mask_rcnn_peritoneal_e_imagenet_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_E_TEST_B --dataset=/GraduationProject/resources/k-fold/B --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_e_imagenet20211115T1150/mask_rcnn_peritoneal_e_imagenet_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_E_TEST_C --dataset=/GraduationProject/resources/k-fold/C --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_e_imagenet20211115T1150/mask_rcnn_peritoneal_e_imagenet_0100.h5'
-	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py --name=IMAGENET_E_TEST_D --dataset=/GraduationProject/resources/k-fold/D --weights=/GraduationProject/logs/Weights/imagenet/peritoneal_e_imagenet20211115T1150/mask_rcnn_peritoneal_e_imagenet_0100.h5'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_EXPORT_DETECT_DATA) && python export_detect_data.py $(argv)'
 
 computed-from-class: ## Computed MaskRCNN Model Detect Result from classes
 	# ============= Parameter Example =============
@@ -89,7 +65,7 @@ label-gen: ## Generator MaskRCNN Training Label
 	# --target="/GraduationProject/assets/alignment/CT Image Resize (1000 x 570)"
 	# --output="normal.json"
 	# =============================================
-	#docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_GEN_LABEL) && python generator.py $(argv)'
+	docker run $(DOCKER_RUN_PARM) $(DOCKER_IMAGE) sh -c 'cd $(PROJECT_MASKRCNN_GEN_LABEL) && python generator.py $(argv)'
 
 label-verify: ## Verify MaskRCNN Training Label
 	# ============= Parameter Example =============
